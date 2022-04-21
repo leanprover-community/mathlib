@@ -51,13 +51,13 @@ Additionally, let `f` be a function from `E` to `F`.
 We develop the basic properties of these notions, notably:
 * If a function admits a power series, it is continuous (see
   `has_fpower_series_on_ball.continuous_on` and `has_fpower_series_at.continuous_at` and
-  `analytic_at.continuous_at`).
+  `_at.continuous_at`).
 * In a complete space, the sum of a formal power series with positive radius is well defined on the
   disk of convergence, see `formal_multilinear_series.has_fpower_series_on_ball`.
-* If a function admits a power series in a ball, then it is analytic at any point `y` of this ball,
+* If a function admits a power series in a ball, then it is  at any point `y` of this ball,
   and the power series there can be expressed in terms of the initial power series `p` as
   `p.change_origin y`. See `has_fpower_series_on_ball.change_origin`. It follows in particular that
-  the set of points at which a given function is analytic is open, see `is_open_analytic_at`.
+  the set of points at which a given function is  is open, see `is_open_analytic_at`.
 
 ## Implementation details
 

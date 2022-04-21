@@ -89,8 +89,9 @@ begin
   exact ⟨this.1, this.2.const_smul _⟩
 end
 
-/-- Derivative under integral of `x ↦ ∫ F x a` at a given point `x₀ : 𝕜`, `𝕜 = ℝ` or `𝕜 = ℂ`,
-assuming `F x₀` is integrable, `x ↦ F x a` is differentiable on an interval around `x₀` for ae `a`
+
+/-- Derivative under integral of `x ↦ ∫ F x a` at a given point `x₀ : ℝ`, assuming
+`F x₀` is integrable, `x ↦ F x a` is differentiable on an interval around `x₀` for ae `a`
 (with interval radius independent of `a`) with derivative uniformly bounded by an integrable
 function, and `F x` is ae-measurable for `x` in a possibly smaller neighborhood of `x₀`. -/
 lemma has_deriv_at_integral_of_dominated_loc_of_deriv_le {F : 𝕜 → ℝ → E} {F' : 𝕜 → ℝ → E} {x₀ : 𝕜}
