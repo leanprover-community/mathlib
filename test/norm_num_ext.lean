@@ -7,6 +7,7 @@ import algebra.big_operators.norm_num
 import data.nat.squarefree
 import data.int.gcd
 import data.nat.fib
+import data.rat.floor
 import data.nat.prime
 import data.nat.sqrt_norm_num
 import analysis.special_functions.pow
@@ -301,3 +302,17 @@ example : ∏ i in {1, 4, 9, 16}, nat.sqrt i = 24 := by norm_num
 example : ∑ i : fin 2, ∑ j : fin 2, ![![0, 1], ![2, 3]] i j = 6 := by norm_num
 
 end big_operators
+
+section floor
+
+variables (R : Type*) [linear_ordered_field R] [floor_ring R]
+
+example : int.floor (15 / 16 : R) + 1 = 1 := by norm_num
+example : int.ceil (15 / 16 : R) + 1 = 2 := by norm_num
+example : int.fract (17 / 16 : R) + 1 = 17 / 16 := by norm_num
+
+example : int.floor (-15 / 16 : R) + 1 = 0 := by norm_num
+example : int.ceil (-15 / 16 : R) + 1 = 1 := by norm_num
+example : int.fract (-17 / 16 : R) - 1 = -1 / 16 := by norm_num
+
+end
