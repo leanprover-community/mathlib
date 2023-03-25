@@ -497,6 +497,12 @@ fiber corresponds to the derivative of the coordinate change in `M`. -/
   end }
 
 variable {M}
+
+lemma tangent_bundle_core_coord_change_achart (x x' : M) (z : H) :
+  (tangent_bundle_core I M).coord_change (achart H x) (achart H x') z =
+  fderiv_within 𝕜 (ext_chart_at I x' ∘ (ext_chart_at I x).symm) (range I) (I z) :=
+rfl
+
 include I
 
 /-- The tangent space at a point of the manifold `M`. It is just `E`. We could use instead

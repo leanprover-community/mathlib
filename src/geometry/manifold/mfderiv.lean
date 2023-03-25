@@ -806,6 +806,18 @@ begin
   exact hL.mfderiv_within_eq (unique_mdiff_within_at_univ I) A
 end
 
+/-- A congruence lemma for `mfderiv`, (ab)using the fact that `tangent_space I' (f x)` is
+definitionally equal to `E'`. -/
+lemma mfderiv_congr_point {x' : M} (h : x = x') :
+  @eq (E →L[𝕜] E') (mfderiv I I' f x) (mfderiv I I' f x') :=
+by subst h
+
+/-- A congruence lemma for `mfderiv`, (ab)using the fact that `tangent_space I' (f x)` is
+definitionally equal to `E'`. -/
+lemma mfderiv_congr {f' : M → M'} (h : f = f') :
+  @eq (E →L[𝕜] E') (mfderiv I I' f x) (mfderiv I I' f' x) :=
+by subst h
+
 /-! ### Composition lemmas -/
 
 omit Is I's

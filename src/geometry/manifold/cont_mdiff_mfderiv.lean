@@ -648,3 +648,118 @@ begin
 end
 
 end tangent_bundle
+
+
+
+/-- For a function `f` from a manifold `M` to a normed space `E'`, the `mfderiv` of `-f` is the
+negation of the `mfderiv` of `f` (abusing the identification of the tangent spaces to `E'` at `f x`
+and `- f x` with `E'`). -/
+lemma mfderiv_neg (f : M → E') (x : M) :
+  (mfderiv I 𝓘(𝕜, E') (-f) x : tangent_space I x →L[𝕜] E')
+  = (- mfderiv I 𝓘(𝕜, E') f x : tangent_space I x →L[𝕜] E') :=
+begin
+  classical,
+  simp only [mfderiv, dite_eq_ite] with mfld_simps,
+  by_cases hf : mdifferentiable_at I 𝓘(𝕜, E') f x,
+  { have hf_neg : mdifferentiable_at I 𝓘(𝕜, E') (-f) x :=
+      ((cont_diff_neg.cont_mdiff _).mdifferentiable_at (le_refl _)).comp _ hf,
+    rw [if_pos hf, if_pos hf_neg],
+    apply fderiv_within_neg (I.unique_diff _ (set.mem_range_self _)) },
+  { have hf_neg : ¬ mdifferentiable_at I 𝓘(𝕜, E') (-f) x,
+    { intros h,
+      apply hf,
+      convert ((cont_diff_neg.cont_mdiff _).mdifferentiable_at (le_refl _)).comp _ h,
+      ext,
+      simp only [comp_app, pi.neg_apply, neg_neg] },
+    rw [if_neg hf, if_neg hf_neg, neg_zero] },
+end
+
+/-- The derivative of the projection `M × M' → M` is the projection `TM × TM' → TM` -/
+lemma mfderiv_fst (x : M × M') :
+  mfderiv (I.prod I') I prod.fst x = continuous_linear_map.fst 𝕜 E E' :=
+begin
+  simp_rw [mfderiv, dif_pos smooth_at_fst.mdifferentiable_at, written_in_ext_chart_at,
+    ext_chart_at_prod, function.comp, local_equiv.prod_coe, local_equiv.prod_coe_symm],
+  have : unique_diff_within_at 𝕜 (range (I.prod I')) (ext_chart_at (I.prod I') x x) :=
+  (I.prod I').unique_diff _ (mem_range_self _),
+  refine (filter.eventually_eq.fderiv_within_eq this _ _).trans _,
+  swap 3,
+  { exact (ext_chart_at I x.1).right_inv ((ext_chart_at I x.1).maps_to $
+      mem_ext_chart_source I x.1) },
+  { refine eventually_of_mem (ext_chart_at_target_mem_nhds_within (I.prod I') x)
+      (λ y hy, local_equiv.right_inv _ _),
+    rw [ext_chart_at_prod] at hy,
+    exact hy.1 },
+  exact fderiv_within_fst this,
+end
+
+/-- The derivative of the projection `M × M' → M'` is the projection `TM × TM' → TM'` -/
+lemma mfderiv_snd (x : M × M') :
+  mfderiv (I.prod I') I' prod.snd x = continuous_linear_map.snd 𝕜 E E' :=
+begin
+  simp_rw [mfderiv, dif_pos smooth_at_snd.mdifferentiable_at, written_in_ext_chart_at,
+    ext_chart_at_prod, function.comp, local_equiv.prod_coe, local_equiv.prod_coe_symm],
+  have : unique_diff_within_at 𝕜 (range (I.prod I')) (ext_chart_at (I.prod I') x x) :=
+  (I.prod I').unique_diff _ (mem_range_self _),
+  refine (filter.eventually_eq.fderiv_within_eq this _ _).trans _,
+  swap 3,
+  { exact (ext_chart_at I' x.2).right_inv ((ext_chart_at I' x.2).maps_to $
+      mem_ext_chart_source I' x.2) },
+  { refine eventually_of_mem (ext_chart_at_target_mem_nhds_within (I.prod I') x)
+      (λ y hy, local_equiv.right_inv _ _),
+    rw [ext_chart_at_prod] at hy,
+    exact hy.2 },
+  exact fderiv_within_snd this,
+end
+
+lemma mdifferentiable_at.prod_mk {f : N → M} {g : N → M'} {x : N}
+  (hf : mdifferentiable_at J I f x)
+  (hg : mdifferentiable_at J I' g x) :
+  mdifferentiable_at J (I.prod I') (λ x, (f x, g x)) x :=
+⟨hf.1.prod hg.1, hf.2.prod hg.2⟩
+
+lemma mdifferentiable_at.mfderiv_prod {f : N → M} {g : N → M'} {x : N}
+  (hf : mdifferentiable_at J I f x)
+  (hg : mdifferentiable_at J I' g x) :
+  mfderiv J (I.prod I') (λ x, (f x, g x)) x = (mfderiv J I f x).prod (mfderiv J I' g x) :=
+begin
+  classical,
+  simp_rw [mfderiv, dif_pos (hf.prod_mk hg), dif_pos hf, dif_pos hg],
+  exact hf.2.fderiv_within_prod hg.2 (J.unique_diff _ (mem_range_self _))
+end
+
+lemma mfderiv_prod_left {x₀ : M} {y₀ : M'} :
+  mfderiv I (I.prod I') (λ x, (x, y₀)) x₀ = continuous_linear_map.inl 𝕜 E E' :=
+begin
+  refine ((mdifferentiable_at_id I).mfderiv_prod (mdifferentiable_at_const I I')).trans _,
+  rw [mfderiv_id, mfderiv_const],
+  refl
+end
+
+lemma mfderiv_prod_right {x₀ : M} {y₀ : M'} :
+  mfderiv I' (I.prod I') (λ y, (x₀, y)) y₀ = continuous_linear_map.inr 𝕜 E E' :=
+begin
+  refine ((mdifferentiable_at_const I' I).mfderiv_prod (mdifferentiable_at_id I')).trans _,
+  rw [mfderiv_id, mfderiv_const],
+  refl
+end
+
+lemma mfderiv_prod_eq_add {f : N × M → M'} {p : N × M}
+  (hf : mdifferentiable_at (J.prod I) I' f p) :
+  mfderiv (J.prod I) I' f p =
+  (show F × E →L[𝕜] E', from mfderiv (J.prod I) I' (λ (z : N × M), f (z.1, p.2)) p +
+  mfderiv (J.prod I) I' (λ (z : N × M), f (p.1, z.2)) p) :=
+begin
+  dsimp only,
+  rw [← @prod.mk.eta _ _ p] at hf,
+  rw [mfderiv_comp p (by apply hf) (smooth_fst.prod_mk smooth_const).mdifferentiable_at,
+    mfderiv_comp p (by apply hf) (smooth_const.prod_mk smooth_snd).mdifferentiable_at,
+    ← continuous_linear_map.comp_add,
+    smooth_fst.mdifferentiable_at.mfderiv_prod smooth_const.mdifferentiable_at,
+    smooth_const.mdifferentiable_at.mfderiv_prod smooth_snd.mdifferentiable_at,
+    mfderiv_fst, mfderiv_snd, mfderiv_const, mfderiv_const],
+  symmetry,
+  convert continuous_linear_map.comp_id _,
+  { exact continuous_linear_map.fst_prod_zero_add_zero_prod_snd },
+  simp_rw [prod.mk.eta],
+end
