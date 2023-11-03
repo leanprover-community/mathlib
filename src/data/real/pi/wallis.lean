@@ -11,7 +11,7 @@ import analysis.special_functions.integrals
 > Any changes to this file require a corresponding PR to mathlib4.
 
 This file establishes the Wallis product for `π` (`real.tendsto_prod_pi_div_two`). Our proof is
-largely about analyzing the behaviour of the sequence `∫ x in 0..π, sin x ^ n` as `n → ∞`.
+largely about analyzing the behaviour of the sequence `∫_{0}^{π} x, sin x ^ n` as `n → ∞`.
 See: https://en.wikipedia.org/wiki/Wallis_product
 
 The proof can be broken down into two pieces. The first step (carried out in
@@ -20,7 +20,7 @@ explicit formula for this integral, which is rational if `n` is odd and a ration
 if `n` is even.
 
 The second step, carried out here, is to estimate the ratio
-`∫ (x : ℝ) in 0..π, sin x ^ (2 * k + 1) / ∫ (x : ℝ) in 0..π, sin x ^ (2 * k)` and prove that
+`∫_{0}^{π} x, sin x ^ (2 * k + 1) / ∫_{0}^{π} x, sin x ^ (2 * k)` and prove that
 it converges to one using the squeeze theorem. The final product for `π` is obtained after some
 algebraic manipulation.
 
@@ -73,7 +73,7 @@ begin
 end
 
 lemma W_eq_integral_sin_pow_div_integral_sin_pow (k : ℕ) :
-  (π/2)⁻¹ * W k = (∫ (x : ℝ) in 0..π, sin x ^ (2 * k + 1)) / ∫ (x : ℝ) in 0..π, sin x ^ (2 * k) :=
+  (π/2)⁻¹ * W k = (∫_{0}^{π} x, sin x ^ (2 * k + 1)) / ∫_{0}^{π} x, sin x ^ (2 * k) :=
 begin
   rw [integral_sin_pow_even, integral_sin_pow_odd, mul_div_mul_comm, ←prod_div_distrib, inv_div],
   simp_rw [div_div_div_comm, div_div_eq_mul_div, mul_div_assoc],

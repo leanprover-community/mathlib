@@ -1574,10 +1574,10 @@ variables [normed_space ℝ E] [normed_space ℝ E'] [normed_space ℝ F] [compl
 
 /-- The forward convolution of two functions `f` and `g` on `ℝ`, with respect to a continuous
 bilinear map `L` and measure `ν`. It is defined to be the function mapping `x` to
-`∫ t in 0..x, L (f t) (g (x - t)) ∂ν` if `0 < x`, and 0 otherwise. -/
+`∫_{0}^{x} t, L (f t) (g (x - t)) ∂ν` if `0 < x`, and 0 otherwise. -/
 noncomputable def pos_convolution
   (f : ℝ → E) (g : ℝ → E') (L : E →L[ℝ] E' →L[ℝ] F) (ν : measure ℝ . volume_tac) : ℝ → F :=
-indicator (Ioi (0:ℝ)) (λ x, ∫ t in 0..x, L (f t) (g (x - t)) ∂ν)
+indicator (Ioi (0:ℝ)) (λ x, ∫_{0}^{x} t, L (f t) (g (x - t)) ∂ν)
 
 lemma pos_convolution_eq_convolution_indicator
   (f : ℝ → E) (g : ℝ → E') (L : E →L[ℝ] E' →L[ℝ] F) (ν : measure ℝ . volume_tac) [has_no_atoms ν] :
@@ -1629,7 +1629,7 @@ lemma integral_pos_convolution [complete_space E] [complete_space E'] {μ ν : m
   [sigma_finite μ] [sigma_finite ν] [is_add_right_invariant μ] [has_no_atoms ν]
   {f : ℝ → E} {g : ℝ → E'} (hf : integrable_on f (Ioi 0) ν)
   (hg : integrable_on g (Ioi 0) μ) (L : E →L[ℝ] E' →L[ℝ] F)  :
-  ∫ x:ℝ in Ioi 0, (∫ t:ℝ in 0..x, L (f t) (g (x - t)) ∂ν) ∂μ =
+  ∫ x:ℝ in Ioi 0, (∫_{0}^{x} t:ℝ, L (f t) (g (x - t)) ∂ν) ∂μ =
     L (∫ x:ℝ in Ioi 0, f x ∂ν) (∫ x:ℝ in Ioi 0, g x ∂μ) :=
 begin
   rw ←integrable_indicator_iff (measurable_set_Ioi : measurable_set (Ioi (0:ℝ))) at hf hg,

@@ -65,7 +65,7 @@ begin
 end
 
 lemma integral_circle_transform [complete_space E] (f : ℂ → E) :
-  ∫ (θ : ℝ) in 0..2 * π, circle_transform R z w f θ =
+  ∫_{0}^{2 * π} θ, circle_transform R z w f θ =
   (2 * ↑π * I)⁻¹ • ∮ z in C(z, R), (z - w)⁻¹ • f z :=
 begin
   simp_rw [circle_transform, circle_integral, deriv_circle_map, circle_map],

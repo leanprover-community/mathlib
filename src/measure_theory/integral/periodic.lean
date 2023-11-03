@@ -23,7 +23,7 @@ circle" `ℝ ⧸ (ℤ ∙ T)` is measure-preserving, with respect to the restric
 `Ioc t (t + T)` (upstairs) and with respect to Haar measure (downstairs).
 
 Another consequence (`function.periodic.interval_integral_add_eq` and related declarations) is that
-`∫ x in t..t + T, f x = ∫ x in s..s + T, f x` for any (not necessarily measurable) function with
+`∫_{t}^{t + T} x, f x = ∫_{s}^{s + T} x, f x` for any (not necessarily measurable) function with
 period `T`.
 -/
 
@@ -192,7 +192,7 @@ end
 /-- The integral of an almost-everywhere strongly measurable function over `add_circle T` is equal
 to the integral over an interval (t, t + T] in `ℝ` of its lift to `ℝ`. -/
 protected lemma interval_integral_preimage (t : ℝ) (f : add_circle T → E) :
-  ∫ a in t..(t + T), f a = ∫ b : add_circle T, f b :=
+  ∫_{t}^{(t + T)} a, f a = ∫ b : add_circle T, f b :=
 begin
   rw [integral_of_le, add_circle.integral_preimage T t f],
   linarith [hT.out],
@@ -235,7 +235,7 @@ add_circle.integral_preimage 1 t f
 /-- The integral of an almost-everywhere strongly measurable function over `unit_add_circle` is
 equal to the integral over an interval (t, t + 1] in `ℝ` of its lift to `ℝ`. -/
 protected lemma interval_integral_preimage (t : ℝ) (f : unit_add_circle → E) :
-  ∫ a in t..(t + 1), f a = ∫ b : unit_add_circle, f b :=
+  ∫_{t}^{(t + 1)} a, f a = ∫ b : unit_add_circle, f b :=
 add_circle.interval_integral_preimage 1 t f
 
 end unit_add_circle
@@ -250,7 +250,7 @@ variables {f : ℝ → E} {T : ℝ}
 
 /-- An auxiliary lemma for a more general `function.periodic.interval_integral_add_eq`. -/
 lemma interval_integral_add_eq_of_pos (hf : periodic f T)
-  (hT : 0 < T) (t s : ℝ) : ∫ x in t..t + T, f x = ∫ x in s..s + T, f x :=
+  (hT : 0 < T) (t s : ℝ) : ∫_{t}^{t + T} x, f x = ∫_{s}^{s + T} x, f x :=
 begin
   simp only [integral_of_le, hT.le, le_add_iff_nonneg_right],
   haveI : vadd_invariant_measure (add_subgroup.zmultiples T) ℝ volume :=
@@ -262,7 +262,7 @@ end
 /-- If `f` is a periodic function with period `T`, then its integral over `[t, t + T]` does not
 depend on `t`. -/
 lemma interval_integral_add_eq (hf : periodic f T)
-  (t s : ℝ) : ∫ x in t..t + T, f x = ∫ x in s..s + T, f x :=
+  (t s : ℝ) : ∫_{t}^{t + T} x, f x = ∫_{s}^{s + T} x, f x :=
 begin
   rcases lt_trichotomy 0 T with (hT|rfl|hT),
   { exact hf.interval_integral_add_eq_of_pos hT t s },
@@ -276,21 +276,21 @@ end
 is the sum of its integrals over the intervals `[t, s]` and `[t, t + T]`. -/
 lemma interval_integral_add_eq_add (hf : periodic f T) (t s : ℝ)
   (h_int : ∀ t₁ t₂, interval_integrable f measure_space.volume t₁ t₂) :
-  ∫ x in t..s+T, f x = (∫ x in t..s, f x) + ∫ x in t..t + T, f x :=
+  ∫_{t}^{s+T} x, f x = (∫_{t}^{s} x, f x) + ∫_{t}^{t + T} x, f x :=
 by rw [hf.interval_integral_add_eq t s, integral_add_adjacent_intervals (h_int t s) (h_int s _)]
 
 /-- If `f` is an integrable periodic function with period `T`, and `n` is an integer, then its
 integral over `[t, t + n • T]` is `n` times its integral over `[t, t + T]`. -/
 lemma interval_integral_add_zsmul_eq (hf : periodic f T) (n : ℤ) (t : ℝ)
   (h_int : ∀ t₁ t₂, interval_integrable f measure_space.volume t₁ t₂) :
-  ∫ x in t..t + n • T, f x = n • ∫ x in t..t + T, f x :=
+  ∫_{t}^{t + n • T} x, f x = n • ∫_{t}^{t + T} x, f x :=
 begin
   -- Reduce to the case `b = 0`
-  suffices : ∫ x in 0..n • T, f x = n • ∫ x in 0..T, f x,
+  suffices : ∫_{0}^{n • T} x, f x = n • ∫_{0}^{T} x, f x,
   { simp only [hf.interval_integral_add_eq t 0, (hf.zsmul n).interval_integral_add_eq t 0, zero_add,
       this], },
   -- First prove it for natural numbers
-  have : ∀ (m : ℕ), ∫ x in 0..m • T, f x = m • ∫ x in 0..T, f x,
+  have : ∀ (m : ℕ), ∫_{0}^{m • T} x, f x = m • ∫_{0}^{T} x, f x,
   { intros,
     induction m with m ih,
     { simp, },
@@ -314,10 +314,10 @@ variables (hg : periodic g T) (h_int : ∀ t₁ t₂, interval_integrable g meas
 include hg h_int
 
 /-- If `g : ℝ → ℝ` is periodic with period `T > 0`, then for any `t : ℝ`, the function
-`t ↦ ∫ x in 0..t, g x` is bounded below by `t ↦ X + ⌊t/T⌋ • Y` for appropriate constants `X` and
+`t ↦ ∫_{0}^{t} x, g x` is bounded below by `t ↦ X + ⌊t/T⌋ • Y` for appropriate constants `X` and
 `Y`. -/
 lemma Inf_add_zsmul_le_integral_of_pos (hT : 0 < T) (t : ℝ) :
-  Inf ((λ t, ∫ x in 0..t, g x) '' (Icc 0 T)) + ⌊t/T⌋ • (∫ x in 0..T, g x) ≤ ∫ x in 0..t, g x :=
+  Inf ((λ t, ∫_{0}^{t} x, g x) '' (Icc 0 T)) + ⌊t/T⌋ • (∫_{0}^{T} x, g x) ≤ ∫_{0}^{t} x, g x :=
 begin
   let ε := int.fract (t/T) * T,
   conv_rhs { rw [← int.fract_div_mul_self_add_zsmul_eq T t (by linarith),
@@ -329,10 +329,10 @@ begin
 end
 
 /-- If `g : ℝ → ℝ` is periodic with period `T > 0`, then for any `t : ℝ`, the function
-`t ↦ ∫ x in 0..t, g x` is bounded above by `t ↦ X + ⌊t/T⌋ • Y` for appropriate constants `X` and
+`t ↦ ∫_{0}^{t} x, g x` is bounded above by `t ↦ X + ⌊t/T⌋ • Y` for appropriate constants `X` and
 `Y`. -/
 lemma integral_le_Sup_add_zsmul_of_pos (hT : 0 < T) (t : ℝ) :
-  ∫ x in 0..t, g x ≤ Sup ((λ t, ∫ x in 0..t, g x) '' (Icc 0 T)) + ⌊t/T⌋ • (∫ x in 0..T, g x) :=
+  ∫_{0}^{t} x, g x ≤ Sup ((λ t, ∫_{0}^{t} x, g x) '' (Icc 0 T)) + ⌊t/T⌋ • (∫_{0}^{T} x, g x) :=
 begin
   let ε := int.fract (t/T) * T,
   conv_lhs { rw [← int.fract_div_mul_self_add_zsmul_eq T t (by linarith),
@@ -343,38 +343,38 @@ begin
     (mem_Icc_of_Ico (int.fract_div_mul_self_mem_Ico T t hT)),
 end
 
-/-- If `g : ℝ → ℝ` is periodic with period `T > 0` and `0 < ∫ x in 0..T, g x`, then
-`t ↦ ∫ x in 0..t, g x` tends to `∞` as `t` tends to `∞`. -/
-lemma tendsto_at_top_interval_integral_of_pos (h₀ : 0 < ∫ x in 0..T, g x) (hT : 0 < T) :
-  tendsto (λ t, ∫ x in 0..t, g x) at_top at_top :=
+/-- If `g : ℝ → ℝ` is periodic with period `T > 0` and `0 < ∫_{0}^{T} x, g x`, then
+`t ↦ ∫_{0}^{t} x, g x` tends to `∞` as `t` tends to `∞`. -/
+lemma tendsto_at_top_interval_integral_of_pos (h₀ : 0 < ∫_{0}^{T} x, g x) (hT : 0 < T) :
+  tendsto (λ t, ∫_{0}^{t} x, g x) at_top at_top :=
 begin
   apply tendsto_at_top_mono (hg.Inf_add_zsmul_le_integral_of_pos h_int hT),
-  apply at_top.tendsto_at_top_add_const_left (Inf $ (λ t, ∫ x in 0..t, g x) '' (Icc 0 T)),
+  apply at_top.tendsto_at_top_add_const_left (Inf $ (λ t, ∫_{0}^{t} x, g x) '' (Icc 0 T)),
   apply tendsto.at_top_zsmul_const h₀,
   exact tendsto_floor_at_top.comp (tendsto_id.at_top_mul_const (inv_pos.mpr hT)),
 end
 
-/-- If `g : ℝ → ℝ` is periodic with period `T > 0` and `0 < ∫ x in 0..T, g x`, then
-`t ↦ ∫ x in 0..t, g x` tends to `-∞` as `t` tends to `-∞`. -/
-lemma tendsto_at_bot_interval_integral_of_pos (h₀ : 0 < ∫ x in 0..T, g x) (hT : 0 < T) :
-  tendsto (λ t, ∫ x in 0..t, g x) at_bot at_bot :=
+/-- If `g : ℝ → ℝ` is periodic with period `T > 0` and `0 < ∫_{0}^{T} x, g x`, then
+`t ↦ ∫_{0}^{t} x, g x` tends to `-∞` as `t` tends to `-∞`. -/
+lemma tendsto_at_bot_interval_integral_of_pos (h₀ : 0 < ∫_{0}^{T} x, g x) (hT : 0 < T) :
+  tendsto (λ t, ∫_{0}^{t} x, g x) at_bot at_bot :=
 begin
   apply tendsto_at_bot_mono (hg.integral_le_Sup_add_zsmul_of_pos h_int hT),
-  apply at_bot.tendsto_at_bot_add_const_left (Sup $ (λ t, ∫ x in 0..t, g x) '' (Icc 0 T)),
+  apply at_bot.tendsto_at_bot_add_const_left (Sup $ (λ t, ∫_{0}^{t} x, g x) '' (Icc 0 T)),
   apply tendsto.at_bot_zsmul_const h₀,
   exact tendsto_floor_at_bot.comp (tendsto_id.at_bot_mul_const (inv_pos.mpr hT)),
 end
 
-/-- If `g : ℝ → ℝ` is periodic with period `T > 0` and `∀ x, 0 < g x`, then `t ↦ ∫ x in 0..t, g x`
+/-- If `g : ℝ → ℝ` is periodic with period `T > 0` and `∀ x, 0 < g x`, then `t ↦ ∫_{0}^{t} x, g x`
 tends to `∞` as `t` tends to `∞`. -/
 lemma tendsto_at_top_interval_integral_of_pos' (h₀ : ∀ x, 0 < g x) (hT : 0 < T) :
-  tendsto (λ t, ∫ x in 0..t, g x) at_top at_top :=
+  tendsto (λ t, ∫_{0}^{t} x, g x) at_top at_top :=
 hg.tendsto_at_top_interval_integral_of_pos h_int (interval_integral_pos_of_pos (h_int 0 T) h₀ hT) hT
 
-/-- If `g : ℝ → ℝ` is periodic with period `T > 0` and `∀ x, 0 < g x`, then `t ↦ ∫ x in 0..t, g x`
+/-- If `g : ℝ → ℝ` is periodic with period `T > 0` and `∀ x, 0 < g x`, then `t ↦ ∫_{0}^{t} x, g x`
 tends to `-∞` as `t` tends to `-∞`. -/
 lemma tendsto_at_bot_interval_integral_of_pos' (h₀ : ∀ x, 0 < g x) (hT : 0 < T) :
-  tendsto (λ t, ∫ x in 0..t, g x) at_bot at_bot :=
+  tendsto (λ t, ∫_{0}^{t} x, g x) at_bot at_bot :=
 hg.tendsto_at_bot_interval_integral_of_pos h_int (interval_integral_pos_of_pos (h_int 0 T) h₀ hT) hT
 
 end real_valued

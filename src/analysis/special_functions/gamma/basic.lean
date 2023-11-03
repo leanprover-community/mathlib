@@ -151,7 +151,7 @@ namespace complex
 section Gamma_recurrence
 
 /-- The indefinite version of the `Γ` function, `Γ(s, X) = ∫ x ∈ 0..X, exp(-x) x ^ (s - 1)`. -/
-def partial_Gamma (s : ℂ) (X : ℝ) : ℂ := ∫ x in 0..X, (-x).exp * x ^ (s - 1)
+def partial_Gamma (s : ℂ) (X : ℝ) : ℂ := ∫_{0}^{X} x, (-x).exp * x ^ (s - 1)
 
 lemma tendsto_partial_Gamma {s : ℂ} (hs: 0 < s.re) :
   tendsto (λ X:ℝ, partial_Gamma s X) at_top (𝓝 $ Gamma_integral s) :=

@@ -168,9 +168,9 @@ lemma integral_boundary_rect_of_has_fderiv_at_real_off_countable (f : ℂ → E)
   (Hd : ∀ x ∈ (Ioo (min z.re w.re) (max z.re w.re) ×ℂ Ioo (min z.im w.im) (max z.im w.im)) \ s,
     has_fderiv_at f (f' x) x)
   (Hi : integrable_on (λ z, I • f' z 1 - f' z I) ([z.re, w.re] ×ℂ [z.im, w.im])) :
-  (∫ x : ℝ in z.re..w.re, f (x + z.im * I)) - (∫ x : ℝ in z.re..w.re, f (x + w.im * I)) +
-    (I • ∫ y : ℝ in z.im..w.im, f (re w + y * I)) - I • ∫ y : ℝ in z.im..w.im, f (re z + y * I) =
-    ∫ x : ℝ in z.re..w.re, ∫ y : ℝ in z.im..w.im, I • f' (x + y * I) 1 - f' (x + y * I) I :=
+  (∫_{z.re}^{w.re} x, f (x + z.im * I)) - (∫_{z.re}^{w.re} x, f (x + w.im * I)) +
+    (I • ∫_{z.im}^{w.im} y, f (re w + y * I)) - I • ∫_{z.im}^{w.im} y, f (re z + y * I) =
+    ∫_{z.re}^{w.re} x, ∫_{z.im}^{w.im} y, I • f' (x + y * I) 1 - f' (x + y * I) I :=
 begin
   set e : (ℝ × ℝ) ≃L[ℝ] ℂ := equiv_real_prod_clm.symm,
   have he : ∀ x y : ℝ, ↑x + ↑y * I = e (x, y), from λ x y, (mk_eq_add_mul_I x y).symm,
@@ -212,9 +212,9 @@ lemma integral_boundary_rect_of_continuous_on_of_has_fderiv_at_real (f : ℂ →
   (Hd : ∀ x ∈ (Ioo (min z.re w.re) (max z.re w.re) ×ℂ Ioo (min z.im w.im) (max z.im w.im)),
     has_fderiv_at f (f' x) x)
   (Hi : integrable_on (λ z, I • f' z 1 - f' z I) ([z.re, w.re] ×ℂ [z.im, w.im])) :
-  (∫ x : ℝ in z.re..w.re, f (x + z.im * I)) - (∫ x : ℝ in z.re..w.re, f (x + w.im * I)) +
-    (I • ∫ y : ℝ in z.im..w.im, f (re w + y * I)) - I • ∫ y : ℝ in z.im..w.im, f (re z + y * I) =
-    ∫ x : ℝ in z.re..w.re, ∫ y : ℝ in z.im..w.im, I • f' (x + y * I) 1 - f' (x + y * I) I :=
+  (∫_{z.re}^{w.re} x, f (x + z.im * I)) - (∫_{z.re}^{w.re} x, f (x + w.im * I)) +
+    (I • ∫_{z.im}^{w.im} y, f (re w + y * I)) - I • ∫_{z.im}^{w.im} y, f (re z + y * I) =
+    ∫_{z.re}^{w.re} x, ∫_{z.im}^{w.im} y, I • f' (x + y * I) 1 - f' (x + y * I) I :=
 integral_boundary_rect_of_has_fderiv_at_real_off_countable f f' z w ∅ countable_empty Hc
   (λ x hx, Hd x hx.1) Hi
 
@@ -226,9 +226,9 @@ over the rectangle. -/
 lemma integral_boundary_rect_of_differentiable_on_real (f : ℂ → E) (z w : ℂ)
   (Hd : differentiable_on ℝ f ([z.re, w.re] ×ℂ [z.im, w.im]))
   (Hi : integrable_on (λ z, I • fderiv ℝ f z 1 - fderiv ℝ f z I) ([z.re, w.re] ×ℂ [z.im, w.im])) :
-  (∫ x : ℝ in z.re..w.re, f (x + z.im * I)) - (∫ x : ℝ in z.re..w.re, f (x + w.im * I)) +
-    (I • ∫ y : ℝ in z.im..w.im, f (re w + y * I)) - I • ∫ y : ℝ in z.im..w.im, f (re z + y * I) =
-    ∫ x : ℝ in z.re..w.re, ∫ y : ℝ in z.im..w.im,
+  (∫_{z.re}^{w.re} x, f (x + z.im * I)) - (∫_{z.re}^{w.re} x, f (x + w.im * I)) +
+    (I • ∫_{z.im}^{w.im} y, f (re w + y * I)) - I • ∫_{z.im}^{w.im} y, f (re z + y * I) =
+    ∫_{z.re}^{w.re} x, ∫_{z.im}^{w.im} y,
       I • fderiv ℝ f (x + y * I) 1 - fderiv ℝ f (x + y * I) I :=
 integral_boundary_rect_of_has_fderiv_at_real_off_countable f (fderiv ℝ f) z w ∅ countable_empty
   Hd.continuous_on
@@ -243,9 +243,9 @@ lemma integral_boundary_rect_eq_zero_of_differentiable_on_off_countable (f : ℂ
   (z w : ℂ) (s : set ℂ) (hs : s.countable) (Hc : continuous_on f ([z.re, w.re] ×ℂ [z.im, w.im]))
   (Hd : ∀ x ∈ (Ioo (min z.re w.re) (max z.re w.re) ×ℂ Ioo (min z.im w.im) (max z.im w.im)) \ s,
     differentiable_at ℂ f x) :
-  (∫ x : ℝ in z.re..w.re, f (x + z.im * I)) - (∫ x : ℝ in z.re..w.re, f (x + w.im * I)) +
-    (I • ∫ y : ℝ in z.im..w.im, f (re w + y * I)) -
-      I • ∫ y : ℝ in z.im..w.im, f (re z + y * I) = 0 :=
+  (∫_{z.re}^{w.re} x, f (x + z.im * I)) - (∫_{z.re}^{w.re} x, f (x + w.im * I)) +
+    (I • ∫_{z.im}^{w.im} y, f (re w + y * I)) -
+      I • ∫_{z.im}^{w.im} y, f (re z + y * I) = 0 :=
 by refine (integral_boundary_rect_of_has_fderiv_at_real_off_countable f
   (λ z, (fderiv ℂ f z).restrict_scalars ℝ) z w s hs Hc
   (λ x hx, (Hd x hx).has_fderiv_at.restrict_scalars ℝ) _).trans _;
@@ -259,9 +259,9 @@ lemma integral_boundary_rect_eq_zero_of_continuous_on_of_differentiable_on (f : 
   (Hc : continuous_on f ([z.re, w.re] ×ℂ [z.im, w.im]))
   (Hd : differentiable_on ℂ f
     (Ioo (min z.re w.re) (max z.re w.re) ×ℂ Ioo (min z.im w.im) (max z.im w.im))) :
-  (∫ x : ℝ in z.re..w.re, f (x + z.im * I)) - (∫ x : ℝ in z.re..w.re, f (x + w.im * I)) +
-    (I • ∫ y : ℝ in z.im..w.im, f (re w + y * I)) -
-      I • ∫ y : ℝ in z.im..w.im, f (re z + y * I) = 0 :=
+  (∫_{z.re}^{w.re} x, f (x + z.im * I)) - (∫_{z.re}^{w.re} x, f (x + w.im * I)) +
+    (I • ∫_{z.im}^{w.im} y, f (re w + y * I)) -
+      I • ∫_{z.im}^{w.im} y, f (re z + y * I) = 0 :=
 integral_boundary_rect_eq_zero_of_differentiable_on_off_countable f z w ∅ countable_empty
   Hc $ λ x hx, Hd.differentiable_at $ (is_open_Ioo.re_prod_im is_open_Ioo).mem_nhds hx.1
 
@@ -270,9 +270,9 @@ over the boundary of a rectangle equals zero. More precisely, if `f` is complex 
 closed rectangle, then its integral over the boundary of the rectangle equals zero. -/
 lemma integral_boundary_rect_eq_zero_of_differentiable_on (f : ℂ → E) (z w : ℂ)
   (H : differentiable_on ℂ f ([z.re, w.re] ×ℂ [z.im, w.im])) :
-  (∫ x : ℝ in z.re..w.re, f (x + z.im * I)) - (∫ x : ℝ in z.re..w.re, f (x + w.im * I)) +
-    (I • ∫ y : ℝ in z.im..w.im, f (re w + y * I)) -
-      I • ∫ y : ℝ in z.im..w.im, f (re z + y * I) = 0 :=
+  (∫_{z.re}^{w.re} x, f (x + z.im * I)) - (∫_{z.re}^{w.re} x, f (x + w.im * I)) +
+    (I • ∫_{z.im}^{w.im} y, f (re w + y * I)) -
+      I • ∫_{z.im}^{w.im} y, f (re z + y * I) = 0 :=
 integral_boundary_rect_eq_zero_of_continuous_on_of_differentiable_on f z w H.continuous_on $
   H.mono $
     inter_subset_inter (preimage_mono Ioo_subset_Icc_self) (preimage_mono Ioo_subset_Icc_self)
@@ -294,8 +294,8 @@ begin
   obtain ⟨b, rfl⟩ : ∃ b, real.exp b = R, from ⟨real.log R, real.exp_log (h0.trans_le hle)⟩,
   rw [real.exp_le_exp] at hle,
   -- Unfold definition of `circle_integral` and cancel some terms.
-  suffices : ∫ θ in 0..2 * π, I • f (circle_map c (real.exp b) θ) =
-    ∫ θ in 0..2 * π, I • f (circle_map c (real.exp a) θ),
+  suffices : ∫_{0}^{2 * π} θ, I • f (circle_map c (real.exp b) θ) =
+    ∫_{0}^{2 * π} θ, I • f (circle_map c (real.exp a) θ),
     by simpa only [circle_integral, add_sub_cancel', of_real_exp, ← exp_add, smul_smul,
       ← div_eq_mul_inv, mul_div_cancel_left _ (circle_map_ne_center (real.exp_pos _).ne'),
       circle_map_sub_center, deriv_circle_map],

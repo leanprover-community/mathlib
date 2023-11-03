@@ -17,7 +17,7 @@ This file contains proofs of the integrals of various specific functions. This i
 * Integrals of some trigonometric functions, such as `sin`, `cos`, `1 / (1 + x^2)`
 * The integral of `cos x ^ 2 - sin x ^ 2`
 * Reduction formulae for the integrals of `sin x ^ n` and `cos x ^ n` for `n ≥ 2`
-* The computation of `∫ x in 0..π, sin x ^ n` as a product for even and odd `n` (used in proving the
+* The computation of `∫_{0}^{π} x, sin x ^ n` as a product for even and odd `n` (used in proving the
   Wallis product for pi)
 * Integrals of the form `sin x ^ m * cos x ^ n`
 
@@ -225,50 +225,50 @@ end
 lemma interval_integrable_inv_one_add_sq : interval_integrable (λ x : ℝ, (1 + x^2)⁻¹) μ a b :=
 by simpa only [one_div] using interval_integrable_one_div_one_add_sq
 
-/-! ### Integrals of the form `c * ∫ x in a..b, f (c * x + d)` -/
+/-! ### Integrals of the form `c * ∫_{a}^{b} x, f (c * x + d)` -/
 
 @[simp]
-lemma mul_integral_comp_mul_right : c * ∫ x in a..b, f (x * c) = ∫ x in a*c..b*c, f x :=
+lemma mul_integral_comp_mul_right : c * ∫_{a}^{b} x, f (x * c) = ∫_{a*c}^{b*c} x, f x :=
 smul_integral_comp_mul_right f c
 
 @[simp]
-lemma mul_integral_comp_mul_left : c * ∫ x in a..b, f (c * x) = ∫ x in c*a..c*b, f x :=
+lemma mul_integral_comp_mul_left : c * ∫_{a}^{b} x, f (c * x) = ∫_{c*a}^{c*b} x, f x :=
 smul_integral_comp_mul_left f c
 
 @[simp]
-lemma inv_mul_integral_comp_div : c⁻¹ * ∫ x in a..b, f (x / c) = ∫ x in a/c..b/c, f x :=
+lemma inv_mul_integral_comp_div : c⁻¹ * ∫_{a}^{b} x, f (x / c) = ∫_{a/c}^{b/c} x, f x :=
 inv_smul_integral_comp_div f c
 
 @[simp]
-lemma mul_integral_comp_mul_add : c * ∫ x in a..b, f (c * x + d) = ∫ x in c*a+d..c*b+d, f x :=
+lemma mul_integral_comp_mul_add : c * ∫_{a}^{b} x, f (c * x + d) = ∫_{c*a+d}^{c*b+d} x, f x :=
 smul_integral_comp_mul_add f c d
 
 @[simp]
-lemma mul_integral_comp_add_mul : c * ∫ x in a..b, f (d + c * x) = ∫ x in d+c*a..d+c*b, f x :=
+lemma mul_integral_comp_add_mul : c * ∫_{a}^{b} x, f (d + c * x) = ∫_{d+c*a}^{d+c*b} x, f x :=
 smul_integral_comp_add_mul f c d
 
 @[simp]
-lemma inv_mul_integral_comp_div_add : c⁻¹ * ∫ x in a..b, f (x / c + d) = ∫ x in a/c+d..b/c+d, f x :=
+lemma inv_mul_integral_comp_div_add : c⁻¹ * ∫_{a}^{b} x, f (x / c + d) = ∫_{a/c+d}^{b/c+d} x, f x :=
 inv_smul_integral_comp_div_add f c d
 
 @[simp]
-lemma inv_mul_integral_comp_add_div : c⁻¹ * ∫ x in a..b, f (d + x / c) = ∫ x in d+a/c..d+b/c, f x :=
+lemma inv_mul_integral_comp_add_div : c⁻¹ * ∫_{a}^{b} x, f (d + x / c) = ∫_{d+a/c}^{d+b/c} x, f x :=
 inv_smul_integral_comp_add_div f c d
 
 @[simp]
-lemma mul_integral_comp_mul_sub : c * ∫ x in a..b, f (c * x - d) = ∫ x in c*a-d..c*b-d, f x :=
+lemma mul_integral_comp_mul_sub : c * ∫_{a}^{b} x, f (c * x - d) = ∫_{c*a-d}^{c*b-d} x, f x :=
 smul_integral_comp_mul_sub f c d
 
 @[simp]
-lemma mul_integral_comp_sub_mul : c * ∫ x in a..b, f (d - c * x) = ∫ x in d-c*b..d-c*a, f x :=
+lemma mul_integral_comp_sub_mul : c * ∫_{a}^{b} x, f (d - c * x) = ∫_{d-c*b}^{d-c*a} x, f x :=
 smul_integral_comp_sub_mul f c d
 
 @[simp]
-lemma inv_mul_integral_comp_div_sub : c⁻¹ * ∫ x in a..b, f (x / c - d) = ∫ x in a/c-d..b/c-d, f x :=
+lemma inv_mul_integral_comp_div_sub : c⁻¹ * ∫_{a}^{b} x, f (x / c - d) = ∫_{a/c-d}^{b/c-d} x, f x :=
 inv_smul_integral_comp_div_sub f c d
 
 @[simp]
-lemma inv_mul_integral_comp_sub_div : c⁻¹ * ∫ x in a..b, f (d - x / c) = ∫ x in d-b/c..d-a/c, f x :=
+lemma inv_mul_integral_comp_sub_div : c⁻¹ * ∫_{a}^{b} x, f (d - x / c) = ∫_{d-b/c}^{d-a/c} x, f x :=
 inv_smul_integral_comp_sub_div f c d
 
 end interval_integral
@@ -278,7 +278,7 @@ open interval_integral
 /-! ### Integrals of simple functions -/
 
 lemma integral_cpow {r : ℂ} (h : -1 < r.re ∨ (r ≠ -1 ∧ (0 : ℝ) ∉ [a, b])) :
-  ∫ (x : ℝ) in a..b, (x : ℂ) ^ r = (b ^ (r + 1) - a ^ (r + 1)) / (r + 1) :=
+  ∫_{a}^{b} x, (x : ℂ) ^ r = (b ^ (r + 1) - a ^ (r + 1)) / (r + 1) :=
 begin
   rw sub_div,
   have hr : r + 1 ≠ 0,
@@ -292,7 +292,7 @@ begin
     refine has_deriv_at_of_real_cpow (ne_of_mem_of_not_mem hx hab) _,
     contrapose! hr, rwa add_eq_zero_iff_eq_neg },
   replace h : -1 < r.re, by tauto,
-  suffices : ∀ (c : ℝ), ∫ (x : ℝ) in 0..c, (x : ℂ) ^ r =
+  suffices : ∀ (c : ℝ), ∫_{0}^{c} x, (x : ℂ) ^ r =
     c ^ (r + 1) / (r + 1) - 0 ^ (r + 1) / (r + 1),
   { rw [←integral_add_adjacent_intervals (@interval_integrable_cpow' a 0 r h)
       (@interval_integrable_cpow' 0 b r h), integral_symm, this a, this b, complex.zero_cpow hr],
@@ -309,13 +309,13 @@ begin
 end
 
 lemma integral_rpow {r : ℝ} (h : -1 < r ∨ (r ≠ -1 ∧ (0 : ℝ) ∉ [a, b])) :
-  ∫ x in a..b, x ^ r = (b ^ (r + 1) - a ^ (r + 1)) / (r + 1) :=
+  ∫_{a}^{b} x, x ^ r = (b ^ (r + 1) - a ^ (r + 1)) / (r + 1) :=
 begin
   have h' : -1 < (r:ℂ).re ∨ (r:ℂ) ≠ -1 ∧ (0:ℝ) ∉ [a, b],
   { cases h,
     { left, rwa complex.of_real_re },
     { right, rwa [←complex.of_real_one, ←complex.of_real_neg, ne.def, complex.of_real_inj] } },
-  have : ∫ x in a..b, (x:ℂ) ^ (r :ℂ) = ((b:ℂ) ^ (r + 1 : ℂ) - (a:ℂ) ^ (r + 1 : ℂ)) / (r + 1),
+  have : ∫_{a}^{b} x, (x:ℂ) ^ (r :ℂ) = ((b:ℂ) ^ (r + 1 : ℂ) - (a:ℂ) ^ (r + 1 : ℂ)) / (r + 1),
     from integral_cpow h',
   apply_fun complex.re at this, convert this,
   { simp_rw [interval_integral_eq_integral_uIoc, complex.real_smul, complex.of_real_mul_re],
@@ -330,13 +330,13 @@ begin
 end
 
 lemma integral_zpow {n : ℤ} (h : 0 ≤ n ∨ n ≠ -1 ∧ (0 : ℝ) ∉ [a, b]) :
-  ∫ x in a..b, x ^ n = (b ^ (n + 1) - a ^ (n + 1)) / (n + 1) :=
+  ∫_{a}^{b} x, x ^ n = (b ^ (n + 1) - a ^ (n + 1)) / (n + 1) :=
 begin
   replace h : -1 < (n : ℝ) ∨ (n : ℝ) ≠ -1 ∧ (0 : ℝ) ∉ [a, b], by exact_mod_cast h,
   exact_mod_cast integral_rpow h,
 end
 
-@[simp] lemma integral_pow : ∫ x in a..b, x ^ n = (b ^ (n + 1) - a ^ (n + 1)) / (n + 1) :=
+@[simp] lemma integral_pow : ∫_{a}^{b} x, x ^ n = (b ^ (n + 1) - a ^ (n + 1)) / (n + 1) :=
 by simpa only [←int.coe_nat_succ, zpow_coe_nat] using integral_zpow (or.inl (int.coe_nat_nonneg n))
 
 /-- Integral of `|x - a| ^ n` over `Ι a b`. This integral appears in the proof of the
@@ -345,9 +345,9 @@ lemma integral_pow_abs_sub_uIoc :
   ∫ x in Ι a b, |x - a| ^ n = |b - a| ^ (n + 1) / (n + 1) :=
 begin
   cases le_or_lt a b with hab hab,
-  { calc ∫ x in Ι a b, |x - a| ^ n = ∫ x in a..b, |x - a| ^ n :
+  { calc ∫ x in Ι a b, |x - a| ^ n = ∫_{a}^{b} x, |x - a| ^ n :
       by rw [uIoc_of_le hab, ← integral_of_le hab]
-    ... = ∫ x in 0..(b - a), x ^ n :
+    ... = ∫_{0}^{(b - a)} x, x ^ n :
       begin
         simp only [integral_comp_sub_right (λ x, |x| ^ n), sub_self],
         refine integral_congr (λ x hx, congr_arg2 has_pow.pow (abs_of_nonneg $ _) rfl),
@@ -355,9 +355,9 @@ begin
         exact hx.1
       end
     ... = |b - a| ^ (n + 1) / (n + 1) : by simp [abs_of_nonneg (sub_nonneg.2 hab)] },
-  { calc ∫ x in Ι a b, |x - a| ^ n = ∫ x in b..a, |x - a| ^ n :
+  { calc ∫ x in Ι a b, |x - a| ^ n = ∫_{b}^{a} x, |x - a| ^ n :
       by rw [uIoc_of_lt hab, ← integral_of_le hab.le]
-    ... = ∫ x in b - a..0, (-x) ^ n :
+    ... = ∫_{b - a}^{0} x, (-x) ^ n :
       begin
         simp only [integral_comp_sub_right (λ x, |x| ^ n), sub_self],
         refine integral_congr (λ x hx, congr_arg2 has_pow.pow (abs_of_nonpos $ _) rfl),
@@ -369,18 +369,18 @@ begin
 end
 
 @[simp]
-lemma integral_id : ∫ x in a..b, x = (b ^ 2 - a ^ 2) / 2 :=
+lemma integral_id : ∫_{a}^{b} x, x = (b ^ 2 - a ^ 2) / 2 :=
 by simpa using integral_pow 1
 
 @[simp]
-lemma integral_one : ∫ x in a..b, (1 : ℝ) = b - a :=
+lemma integral_one : ∫_{a}^{b} x, (1 : ℝ) = b - a :=
 by simp only [mul_one, smul_eq_mul, integral_const]
 
-lemma integral_const_on_unit_interval : ∫ x in a..(a + 1), b = b :=
+lemma integral_const_on_unit_interval : ∫_{a}^{(a + 1)} x, b = b :=
 by simp
 
 @[simp]
-lemma integral_inv (h : (0:ℝ) ∉ [a, b]) : ∫ x in a..b, x⁻¹ = log (b / a) :=
+lemma integral_inv (h : (0:ℝ) ∉ [a, b]) : ∫_{a}^{b} x, x⁻¹ = log (b / a) :=
 begin
   have h' := λ x hx, ne_of_mem_of_not_mem hx h,
   rw [integral_deriv_eq_sub' _ deriv_log' (λ x hx, differentiable_at_log (h' x hx))
@@ -389,28 +389,28 @@ begin
 end
 
 @[simp]
-lemma integral_inv_of_pos (ha : 0 < a) (hb : 0 < b) : ∫ x in a..b, x⁻¹ = log (b / a) :=
+lemma integral_inv_of_pos (ha : 0 < a) (hb : 0 < b) : ∫_{a}^{b} x, x⁻¹ = log (b / a) :=
 integral_inv $ not_mem_uIcc_of_lt ha hb
 
 @[simp]
-lemma integral_inv_of_neg (ha : a < 0) (hb : b < 0) : ∫ x in a..b, x⁻¹ = log (b / a) :=
+lemma integral_inv_of_neg (ha : a < 0) (hb : b < 0) : ∫_{a}^{b} x, x⁻¹ = log (b / a) :=
 integral_inv $ not_mem_uIcc_of_gt ha hb
 
-lemma integral_one_div (h : (0:ℝ) ∉ [a, b]) : ∫ x : ℝ in a..b, 1/x = log (b / a) :=
+lemma integral_one_div (h : (0:ℝ) ∉ [a, b]) : ∫_{a}^{b} x, 1/x = log (b / a) :=
 by simp only [one_div, integral_inv h]
 
-lemma integral_one_div_of_pos (ha : 0 < a) (hb : 0 < b) : ∫ x : ℝ in a..b, 1/x = log (b / a) :=
+lemma integral_one_div_of_pos (ha : 0 < a) (hb : 0 < b) : ∫_{a}^{b} x, 1/x = log (b / a) :=
 by simp only [one_div, integral_inv_of_pos ha hb]
 
-lemma integral_one_div_of_neg (ha : a < 0) (hb : b < 0) : ∫ x : ℝ in a..b, 1/x = log (b / a) :=
+lemma integral_one_div_of_neg (ha : a < 0) (hb : b < 0) : ∫_{a}^{b} x, 1/x = log (b / a) :=
 by simp only [one_div, integral_inv_of_neg ha hb]
 
 @[simp]
-lemma integral_exp : ∫ x in a..b, exp x = exp b - exp a :=
+lemma integral_exp : ∫_{a}^{b} x, exp x = exp b - exp a :=
 by rw integral_deriv_eq_sub'; norm_num [continuous_on_exp]
 
 lemma integral_exp_mul_complex {c : ℂ} (hc : c ≠ 0) :
-  ∫ x in a..b, complex.exp (c * x) = (complex.exp (c * b) - complex.exp (c * a)) / c :=
+  ∫_{a}^{b} x, complex.exp (c * x) = (complex.exp (c * b) - complex.exp (c * a)) / c :=
 begin
   have D : ∀ (x : ℝ), has_deriv_at (λ (y : ℝ), complex.exp (c * y) / c) (complex.exp (c * x)) x,
   { intro x,
@@ -424,7 +424,7 @@ end
 
 @[simp]
 lemma integral_log (h : (0:ℝ) ∉ [a, b]) :
-  ∫ x in a..b, log x = b * log b - a * log a - b + a :=
+  ∫_{a}^{b} x, log x = b * log b - a * log a - b + a :=
 begin
   obtain ⟨h', heq⟩ := ⟨λ x hx, ne_of_mem_of_not_mem hx h, λ x hx, mul_inv_cancel (h' x hx)⟩,
   convert integral_mul_deriv_eq_deriv_mul (λ x hx, has_deriv_at_log (h' x hx))
@@ -436,24 +436,24 @@ end
 
 @[simp]
 lemma integral_log_of_pos (ha : 0 < a) (hb : 0 < b) :
-  ∫ x in a..b, log x = b * log b - a * log a - b + a :=
+  ∫_{a}^{b} x, log x = b * log b - a * log a - b + a :=
 integral_log $ not_mem_uIcc_of_lt ha hb
 
 @[simp]
 lemma integral_log_of_neg (ha : a < 0) (hb : b < 0) :
-  ∫ x in a..b, log x = b * log b - a * log a - b + a :=
+  ∫_{a}^{b} x, log x = b * log b - a * log a - b + a :=
 integral_log $ not_mem_uIcc_of_gt ha hb
 
 @[simp]
-lemma integral_sin : ∫ x in a..b, sin x = cos a - cos b :=
+lemma integral_sin : ∫_{a}^{b} x, sin x = cos a - cos b :=
 by rw integral_deriv_eq_sub' (λ x, -cos x); norm_num [continuous_on_sin]
 
 @[simp]
-lemma integral_cos : ∫ x in a..b, cos x = sin b - sin a :=
+lemma integral_cos : ∫_{a}^{b} x, cos x = sin b - sin a :=
 by rw integral_deriv_eq_sub'; norm_num [continuous_on_cos]
 
 lemma integral_cos_mul_complex {z : ℂ} (hz : z ≠ 0) (a b : ℝ) :
-  ∫ x in a..b, complex.cos (z * x) = complex.sin (z * b) / z - complex.sin (z * a) / z :=
+  ∫_{a}^{b} x, complex.cos (z * x) = complex.sin (z * b) / z - complex.sin (z * a) / z :=
 begin
   apply integral_eq_sub_of_has_deriv_at,
   swap,
@@ -469,13 +469,13 @@ begin
 end
 
 lemma integral_cos_sq_sub_sin_sq :
-  ∫ x in a..b, cos x ^ 2 - sin x ^ 2 = sin b * cos b - sin a * cos a :=
+  ∫_{a}^{b} x, cos x ^ 2 - sin x ^ 2 = sin b * cos b - sin a * cos a :=
 by simpa only [sq, sub_eq_add_neg, neg_mul_eq_mul_neg] using integral_deriv_mul_eq_sub
   (λ x hx, has_deriv_at_sin x) (λ x hx, has_deriv_at_cos x) continuous_on_cos.interval_integrable
   continuous_on_sin.neg.interval_integrable
 
 @[simp]
-lemma integral_inv_one_add_sq : ∫ x : ℝ in a..b, (1 + x^2)⁻¹ = arctan b - arctan a :=
+lemma integral_inv_one_add_sq : ∫_{a}^{b} x, (1 + x^2)⁻¹ = arctan b - arctan a :=
 begin
   simp only [← one_div],
   refine integral_deriv_eq_sub' _ _ _ (continuous_const.div _ (λ x, _)).continuous_on,
@@ -485,14 +485,14 @@ begin
   { nlinarith },
 end
 
-lemma integral_one_div_one_add_sq : ∫ x : ℝ in a..b, 1 / (1 + x^2) = arctan b - arctan a :=
+lemma integral_one_div_one_add_sq : ∫_{a}^{b} x, 1 / (1 + x^2) = arctan b - arctan a :=
 by simp only [one_div, integral_inv_one_add_sq]
 
 section rpow_cpow
 open complex
 
 lemma integral_mul_cpow_one_add_sq {t : ℂ} (ht : t ≠ -1) :
-  ∫ x : ℝ in a..b, (x:ℂ) * (1 + x ^ 2) ^ t =
+  ∫_{a}^{b} x, (x:ℂ) * (1 + x ^ 2) ^ t =
   (1 + b ^ 2) ^ (t + 1) / (2 * (t + 1)) - (1 + a ^ 2) ^ (t + 1) / (2 * (t + 1)) :=
 begin
   have : t + 1 ≠ 0 := by { contrapose! ht, rwa add_eq_zero_iff_eq_neg at ht },
@@ -522,7 +522,7 @@ begin
 end
 
 lemma integral_mul_rpow_one_add_sq {t : ℝ} (ht : t ≠ -1) :
-  ∫ x : ℝ in a..b, x * (1 + x ^ 2) ^ t =
+  ∫_{a}^{b} x, x * (1 + x ^ 2) ^ t =
   (1 + b ^ 2) ^ (t + 1) / (2 * (t + 1)) - (1 + a ^ 2) ^ (t + 1) / (2 * (t + 1)) :=
 begin
   have : ∀ (x s : ℝ), (((1 + x ^ 2) ^ s : ℝ) : ℂ) = (1 + (x : ℂ) ^ 2) ^ ↑s,
@@ -545,8 +545,8 @@ end rpow_cpow
 /-! ### Integral of `sin x ^ n` -/
 
 lemma integral_sin_pow_aux :
-  ∫ x in a..b, sin x ^ (n + 2) = sin a ^ (n + 1) * cos a - sin b ^ (n + 1) * cos b
-    + (n + 1) * (∫ x in a..b, sin x ^ n) - (n + 1) * ∫ x in a..b, sin x ^ (n + 2) :=
+  ∫_{a}^{b} x, sin x ^ (n + 2) = sin a ^ (n + 1) * cos a - sin b ^ (n + 1) * cos b
+    + (n + 1) * (∫_{a}^{b} x, sin x ^ n) - (n + 1) * ∫_{a}^{b} x, sin x ^ (n + 2) :=
 begin
   let C := sin a ^ (n + 1) * cos a - sin b ^ (n + 1) * cos b,
   have h : ∀ α β γ : ℝ, (β * α * γ) * α = β * (α * α * γ) := λ α β γ, by ring,
@@ -555,20 +555,20 @@ begin
   have hv : ∀ x ∈ [a, b], has_deriv_at (-cos) (sin x) x :=
     λ x hx, by simpa only [neg_neg] using (has_deriv_at_cos x).neg,
   have H := integral_mul_deriv_eq_deriv_mul hu hv _ _,
-  calc  ∫ x in a..b, sin x ^ (n + 2)
-      = ∫ x in a..b, sin x ^ (n + 1) * sin x                   : by simp only [pow_succ']
-  ... = C + (n + 1) * ∫ x in a..b, cos x ^ 2 * sin x ^ n       : by simp [H, h, sq]
-  ... = C + (n + 1) * ∫ x in a..b, sin x ^ n - sin x ^ (n + 2) : by simp [cos_sq', sub_mul,
+  calc  ∫_{a}^{b} x, sin x ^ (n + 2)
+      = ∫_{a}^{b} x, sin x ^ (n + 1) * sin x                   : by simp only [pow_succ']
+  ... = C + (n + 1) * ∫_{a}^{b} x, cos x ^ 2 * sin x ^ n       : by simp [H, h, sq]
+  ... = C + (n + 1) * ∫_{a}^{b} x, sin x ^ n - sin x ^ (n + 2) : by simp [cos_sq', sub_mul,
                                                                           ← pow_add, add_comm]
-  ... = C + (n + 1) * (∫ x in a..b, sin x ^ n) - (n + 1) * ∫ x in a..b, sin x ^ (n + 2) :
+  ... = C + (n + 1) * (∫_{a}^{b} x, sin x ^ n) - (n + 1) * ∫_{a}^{b} x, sin x ^ (n + 2) :
     by rw [integral_sub, mul_sub, add_sub_assoc]; apply continuous.interval_integrable; continuity,
   all_goals { apply continuous.interval_integrable, continuity },
 end
 
 /-- The reduction formula for the integral of `sin x ^ n` for any natural `n ≥ 2`. -/
 lemma integral_sin_pow :
-  ∫ x in a..b, sin x ^ (n + 2) = (sin a ^ (n + 1) * cos a - sin b ^ (n + 1) * cos b) / (n + 2)
-    + (n + 1) / (n + 2) * ∫ x in a..b, sin x ^ n :=
+  ∫_{a}^{b} x, sin x ^ (n + 2) = (sin a ^ (n + 1) * cos a - sin b ^ (n + 1) * cos b) / (n + 2)
+    + (n + 1) / (n + 2) * ∫_{a}^{b} x, sin x ^ n :=
 begin
   have : (n : ℝ) + 2 ≠ 0 := by exact_mod_cast succ_ne_zero n.succ,
   field_simp,
@@ -577,11 +577,11 @@ begin
 end
 
 @[simp]
-lemma integral_sin_sq : ∫ x in a..b, sin x ^ 2 = (sin a * cos a - sin b * cos b + b - a) / 2 :=
+lemma integral_sin_sq : ∫_{a}^{b} x, sin x ^ 2 = (sin a * cos a - sin b * cos b + b - a) / 2 :=
 by field_simp [integral_sin_pow, add_sub_assoc]
 
 theorem integral_sin_pow_odd :
-  ∫ x in 0..π, sin x ^ (2 * n + 1) = 2 * ∏ i in range n, (2 * i + 2) / (2 * i + 3) :=
+  ∫_{0}^{π} x, sin x ^ (2 * n + 1) = 2 * ∏ i in range n, (2 * i + 2) / (2 * i + 3) :=
 begin
   induction n with k ih, { norm_num },
   rw [prod_range_succ_comm, mul_left_comm, ← ih, mul_succ, integral_sin_pow],
@@ -590,7 +590,7 @@ begin
 end
 
 theorem integral_sin_pow_even :
-  ∫ x in 0..π, sin x ^ (2 * n) = π * ∏ i in range n, (2 * i + 1) / (2 * i + 2) :=
+  ∫_{0}^{π} x, sin x ^ (2 * n) = π * ∏ i in range n, (2 * i + 1) / (2 * i + 2) :=
 begin
   induction n with k ih, { simp },
   rw [prod_range_succ_comm, mul_left_comm, ← ih, mul_succ, integral_sin_pow],
@@ -598,7 +598,7 @@ begin
   simp [-cast_add] with field_simps,
 end
 
-lemma integral_sin_pow_pos : 0 < ∫ x in 0..π, sin x ^ n :=
+lemma integral_sin_pow_pos : 0 < ∫_{0}^{π} x, sin x ^ n :=
 begin
   rcases even_or_odd' n with ⟨k, (rfl | rfl)⟩;
   simp only [integral_sin_pow_even, integral_sin_pow_odd];
@@ -607,18 +607,18 @@ begin
   linarith,
 end
 
-lemma integral_sin_pow_succ_le : ∫ x in 0..π, sin x ^ (n + 1) ≤ ∫ x in 0..π, sin x ^ n :=
+lemma integral_sin_pow_succ_le : ∫_{0}^{π} x, sin x ^ (n + 1) ≤ ∫_{0}^{π} x, sin x ^ n :=
 let H := λ x h, pow_le_pow_of_le_one (sin_nonneg_of_mem_Icc h) (sin_le_one x) (n.le_add_right 1) in
 by refine integral_mono_on pi_pos.le _ _ H; exact (continuous_sin.pow _).interval_integrable 0 π
 
-lemma integral_sin_pow_antitone : antitone (λ n : ℕ, ∫ x in 0..π, sin x ^ n) :=
+lemma integral_sin_pow_antitone : antitone (λ n : ℕ, ∫_{0}^{π} x, sin x ^ n) :=
 antitone_nat_of_succ_le integral_sin_pow_succ_le
 
 /-! ### Integral of `cos x ^ n` -/
 
 lemma integral_cos_pow_aux :
-  ∫ x in a..b, cos x ^ (n + 2) = cos b ^ (n + 1) * sin b - cos a ^ (n + 1) * sin a
-    + (n + 1) * (∫ x in a..b, cos x ^ n) - (n + 1) * ∫ x in a..b, cos x ^ (n + 2) :=
+  ∫_{a}^{b} x, cos x ^ (n + 2) = cos b ^ (n + 1) * sin b - cos a ^ (n + 1) * sin a
+    + (n + 1) * (∫_{a}^{b} x, cos x ^ n) - (n + 1) * ∫_{a}^{b} x, cos x ^ (n + 2) :=
 begin
   let C := cos b ^ (n + 1) * sin b - cos a ^ (n + 1) * sin a,
   have h : ∀ α β γ : ℝ, (β * α * γ) * α = β * (α * α * γ) := λ α β γ, by ring,
@@ -627,20 +627,20 @@ begin
       using (has_deriv_at_cos x).pow (n+1),
   have hv : ∀ x ∈ [a, b], has_deriv_at sin (cos x) x := λ x hx, has_deriv_at_sin x,
   have H := integral_mul_deriv_eq_deriv_mul hu hv _ _,
-  calc  ∫ x in a..b, cos x ^ (n + 2)
-      = ∫ x in a..b, cos x ^ (n + 1) * cos x                   : by simp only [pow_succ']
-  ... = C + (n + 1) * ∫ x in a..b, sin x ^ 2 * cos x ^ n       : by simp [H, h, sq, -neg_add_rev]
-  ... = C + (n + 1) * ∫ x in a..b, cos x ^ n - cos x ^ (n + 2) : by simp [sin_sq, sub_mul,
+  calc  ∫_{a}^{b} x, cos x ^ (n + 2)
+      = ∫_{a}^{b} x, cos x ^ (n + 1) * cos x                   : by simp only [pow_succ']
+  ... = C + (n + 1) * ∫_{a}^{b} x, sin x ^ 2 * cos x ^ n       : by simp [H, h, sq, -neg_add_rev]
+  ... = C + (n + 1) * ∫_{a}^{b} x, cos x ^ n - cos x ^ (n + 2) : by simp [sin_sq, sub_mul,
                                                                           ← pow_add, add_comm]
-  ... = C + (n + 1) * (∫ x in a..b, cos x ^ n) - (n + 1) * ∫ x in a..b, cos x ^ (n + 2) :
+  ... = C + (n + 1) * (∫_{a}^{b} x, cos x ^ n) - (n + 1) * ∫_{a}^{b} x, cos x ^ (n + 2) :
     by rw [integral_sub, mul_sub, add_sub_assoc]; apply continuous.interval_integrable; continuity,
   all_goals { apply continuous.interval_integrable, continuity },
 end
 
 /-- The reduction formula for the integral of `cos x ^ n` for any natural `n ≥ 2`. -/
 lemma integral_cos_pow :
-  ∫ x in a..b, cos x ^ (n + 2) = (cos b ^ (n + 1) * sin b - cos a ^ (n + 1) * sin a) / (n + 2)
-    + (n + 1) / (n + 2) * ∫ x in a..b, cos x ^ n :=
+  ∫_{a}^{b} x, cos x ^ (n + 2) = (cos b ^ (n + 1) * sin b - cos a ^ (n + 1) * sin a) / (n + 2)
+    + (n + 1) / (n + 2) * ∫_{a}^{b} x, cos x ^ n :=
 begin
   have : (n : ℝ) + 2 ≠ 0 := by exact_mod_cast succ_ne_zero n.succ,
   field_simp,
@@ -649,19 +649,19 @@ begin
 end
 
 @[simp]
-lemma integral_cos_sq : ∫ x in a..b, cos x ^ 2 = (cos b * sin b - cos a * sin a + b - a) / 2 :=
+lemma integral_cos_sq : ∫_{a}^{b} x, cos x ^ 2 = (cos b * sin b - cos a * sin a + b - a) / 2 :=
 by field_simp [integral_cos_pow, add_sub_assoc]
 
 /-! ### Integral of `sin x ^ m * cos x ^ n` -/
 
 /-- Simplification of the integral of `sin x ^ m * cos x ^ n`, case `n` is odd. -/
 lemma integral_sin_pow_mul_cos_pow_odd (m n : ℕ) :
-  ∫ x in a..b, sin x ^ m * cos x ^ (2 * n + 1) = ∫ u in sin a..sin b, u ^ m * (1 - u ^ 2) ^ n :=
+  ∫_{a}^{b} x, sin x ^ m * cos x ^ (2 * n + 1) = ∫_{sin a}^{sin b} u, u ^ m * (1 - u ^ 2) ^ n :=
 have hc : continuous (λ u : ℝ, u ^ m * (1 - u ^ 2) ^ n), by continuity,
-calc  ∫ x in a..b, sin x ^ m * cos x ^ (2 * n + 1)
-    = ∫ x in a..b, sin x ^ m * (1 - sin x ^ 2) ^ n * cos x : by simp only [pow_succ', ← mul_assoc,
+calc  ∫_{a}^{b} x, sin x ^ m * cos x ^ (2 * n + 1)
+    = ∫_{a}^{b} x, sin x ^ m * (1 - sin x ^ 2) ^ n * cos x : by simp only [pow_succ', ← mul_assoc,
                                                                            pow_mul, cos_sq']
-... = ∫ u in sin a..sin b, u ^ m * (1 - u ^ 2) ^ n         : integral_comp_mul_deriv
+... = ∫_{sin a}^{sin b} u, u ^ m * (1 - u ^ 2) ^ n         : integral_comp_mul_deriv
                                                               (λ x hx, has_deriv_at_sin x)
                                                                 continuous_on_cos hc
 
@@ -669,56 +669,56 @@ calc  ∫ x in a..b, sin x ^ m * cos x ^ (2 * n + 1)
   See `integral_sin_mul_cos₂` below for the integral given in terms of cos². -/
 @[simp]
 lemma integral_sin_mul_cos₁ :
-  ∫ x in a..b, sin x * cos x = (sin b ^ 2 - sin a ^ 2) / 2 :=
+  ∫_{a}^{b} x, sin x * cos x = (sin b ^ 2 - sin a ^ 2) / 2 :=
 by simpa using integral_sin_pow_mul_cos_pow_odd 1 0
 
 @[simp]
 lemma integral_sin_sq_mul_cos :
-  ∫ x in a..b, sin x ^ 2 * cos x = (sin b ^ 3 - sin a ^ 3) / 3 :=
+  ∫_{a}^{b} x, sin x ^ 2 * cos x = (sin b ^ 3 - sin a ^ 3) / 3 :=
 by simpa using integral_sin_pow_mul_cos_pow_odd 2 0
 
 @[simp]
 lemma integral_cos_pow_three :
-  ∫ x in a..b, cos x ^ 3 = sin b - sin a - (sin b ^ 3 - sin a ^ 3) / 3 :=
+  ∫_{a}^{b} x, cos x ^ 3 = sin b - sin a - (sin b ^ 3 - sin a ^ 3) / 3 :=
 by simpa using integral_sin_pow_mul_cos_pow_odd 0 1
 
 /-- Simplification of the integral of `sin x ^ m * cos x ^ n`, case `m` is odd. -/
 lemma integral_sin_pow_odd_mul_cos_pow (m n : ℕ) :
-  ∫ x in a..b, sin x ^ (2 * m + 1) * cos x ^ n = ∫ u in cos b..cos a, u ^ n * (1 - u ^ 2) ^ m :=
+  ∫_{a}^{b} x, sin x ^ (2 * m + 1) * cos x ^ n = ∫_{cos b}^{cos a} u, u ^ n * (1 - u ^ 2) ^ m :=
 have hc : continuous (λ u : ℝ, u ^ n * (1 - u ^ 2) ^ m), by continuity,
-calc   ∫ x in a..b, sin x ^ (2 * m + 1) * cos x ^ n
-    = -∫ x in b..a, sin x ^ (2 * m + 1) * cos x ^ n          : by rw integral_symm
-... =  ∫ x in b..a, (1 - cos x ^ 2) ^ m * -sin x * cos x ^ n : by simp [pow_succ', pow_mul, sin_sq]
-... =  ∫ x in b..a, cos x ^ n * (1 - cos x ^ 2) ^ m * -sin x : by { congr, ext, ring }
-... =  ∫ u in cos b..cos a, u ^ n * (1 - u ^ 2) ^ m          : integral_comp_mul_deriv
+calc   ∫_{a}^{b} x, sin x ^ (2 * m + 1) * cos x ^ n
+    = -∫_{b}^{a} x, sin x ^ (2 * m + 1) * cos x ^ n          : by rw integral_symm
+... =  ∫_{b}^{a} x, (1 - cos x ^ 2) ^ m * -sin x * cos x ^ n : by simp [pow_succ', pow_mul, sin_sq]
+... =  ∫_{b}^{a} x, cos x ^ n * (1 - cos x ^ 2) ^ m * -sin x : by { congr, ext, ring }
+... =  ∫_{cos b}^{cos a} u, u ^ n * (1 - u ^ 2) ^ m          : integral_comp_mul_deriv
                                                                 (λ x hx, has_deriv_at_cos x)
                                                                   continuous_on_sin.neg hc
 
 /-- The integral of `sin x * cos x`, given in terms of cos².
 See `integral_sin_mul_cos₁` above for the integral given in terms of sin². -/
 lemma integral_sin_mul_cos₂  :
-  ∫ x in a..b, sin x * cos x = (cos a ^ 2 - cos b ^ 2) / 2 :=
+  ∫_{a}^{b} x, sin x * cos x = (cos a ^ 2 - cos b ^ 2) / 2 :=
 by simpa using integral_sin_pow_odd_mul_cos_pow 0 1
 
 @[simp]
 lemma integral_sin_mul_cos_sq :
-  ∫ x in a..b, sin x * cos x ^ 2 = (cos a ^ 3 - cos b ^ 3) / 3 :=
+  ∫_{a}^{b} x, sin x * cos x ^ 2 = (cos a ^ 3 - cos b ^ 3) / 3 :=
 by simpa using integral_sin_pow_odd_mul_cos_pow 0 2
 
 @[simp]
 lemma integral_sin_pow_three :
-  ∫ x in a..b, sin x ^ 3 = cos a - cos b - (cos a ^ 3 - cos b ^ 3) / 3 :=
+  ∫_{a}^{b} x, sin x ^ 3 = cos a - cos b - (cos a ^ 3 - cos b ^ 3) / 3 :=
 by simpa using integral_sin_pow_odd_mul_cos_pow 1 0
 
 /-- Simplification of the integral of `sin x ^ m * cos x ^ n`, case `m` and `n` are both even. -/
 lemma integral_sin_pow_even_mul_cos_pow_even (m n : ℕ) :
-    ∫ x in a..b, sin x ^ (2 * m) * cos x ^ (2 * n)
-  = ∫ x in a..b, ((1 - cos (2 * x)) / 2) ^ m * ((1 + cos (2 * x)) / 2) ^ n :=
+    ∫_{a}^{b} x, sin x ^ (2 * m) * cos x ^ (2 * n)
+  = ∫_{a}^{b} x, ((1 - cos (2 * x)) / 2) ^ m * ((1 + cos (2 * x)) / 2) ^ n :=
 by field_simp [pow_mul, sin_sq, cos_sq, ← sub_sub, (by ring : (2:ℝ) - 1 = 1)]
 
 @[simp]
 lemma integral_sin_sq_mul_cos_sq :
-  ∫ x in a..b, sin x ^ 2 * cos x ^ 2 = (b - a) / 8 - (sin (4 * b) - sin (4 * a)) / 32 :=
+  ∫_{a}^{b} x, sin x ^ 2 * cos x ^ 2 = (b - a) / 8 - (sin (4 * b) - sin (4 * a)) / 32 :=
 begin
   convert integral_sin_pow_even_mul_cos_pow_even 1 1 using 1,
   have h1 : ∀ c : ℝ, (1 - c) / 2 * ((1 + c) / 2) = (1 - c ^ 2) / 4 := λ c, by ring,

@@ -79,7 +79,7 @@ begin
 end
 
 lemma integral_bernoulli_fun_eq_zero {k : ℕ} (hk : k ≠ 0) :
-  ∫ (x : ℝ) in 0..1, bernoulli_fun k x = 0 :=
+  ∫_{0}^{1} x, bernoulli_fun k x = 0 :=
 begin
   rw integral_eq_sub_of_has_deriv_at (λ x hx, antideriv_bernoulli_fun k x)
     ((polynomial.continuous _).interval_integrable _ _),

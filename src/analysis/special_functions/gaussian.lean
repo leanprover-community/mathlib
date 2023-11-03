@@ -298,13 +298,13 @@ begin
   suffices : ∫ x:ℝ in Iic 0, cexp (-b * x^2) = ∫ x:ℝ in Ioi 0, cexp (-b * x^2),
   { rw [this, ←mul_two] at full_integral,
     rwa eq_div_iff, exact two_ne_zero },
-  have : ∀ (c : ℝ), ∫ x in 0 .. c, cexp (-b * x^2) = ∫ x in -c .. 0, cexp (-b * x^2),
+  have : ∀ (c : ℝ), ∫_{0}^{c} x, cexp (-b * x^2) = ∫_{-c}^{0} x, cexp (-b * x^2),
   { intro c,
     have := @interval_integral.integral_comp_sub_left _ _ _ _ 0 c (λ x, cexp (-b * x^2)) 0,
     simpa [zero_sub, neg_sq, neg_zero] using this },
   have t1 := interval_integral_tendsto_integral_Ioi _
      ((integrable_cexp_neg_mul_sq hb).integrable_on) tendsto_id,
-  have t2 : tendsto (λ c:ℝ, ∫ x:ℝ in 0..c,
+  have t2 : tendsto (λ c:ℝ, ∫_{0}^{c} x:ℝ,
     cexp (-b * x^2)) at_top (𝓝 ∫ x:ℝ in Iic 0, cexp (-b * x^2)),
   { simp_rw this,
     refine interval_integral_tendsto_integral_Iic _ _ tendsto_neg_at_top_at_bot,
@@ -364,7 +364,7 @@ variables {b : ℂ}
 /-- The integral of the Gaussian function over the vertical edges of a rectangle
 with vertices at `(±T, 0)` and `(±T, c)`.  -/
 def vertical_integral (b : ℂ) (c T : ℝ) : ℂ :=
-∫ (y : ℝ) in 0..c, I * (cexp (-b * (T + y * I) ^ 2) - cexp (-b * (T - y * I) ^ 2))
+∫_{0}^{c} y, I * (cexp (-b * (T + y * I) ^ 2) - cexp (-b * (T - y * I) ^ 2))
 
 /-- Explicit formula for the norm of the Gaussian function along the vertical
 edges. -/
@@ -459,10 +459,10 @@ lemma integral_cexp_neg_mul_sq_add_real_mul_I (hb : 0 < b.re) (c : ℝ) :
 begin
   refine tendsto_nhds_unique (interval_integral_tendsto_integral
     (integrable_cexp_neg_mul_sq_add_real_mul_I hb c) tendsto_neg_at_top_at_bot tendsto_id) _,
-  set I₁ := (λ T, ∫ (x : ℝ) in -T..T, cexp (-b * (x + c * I) ^ 2)) with HI₁,
-  let I₂ := λ (T : ℝ), ∫ (x : ℝ) in -T..T, cexp (-b * x ^ 2),
-  let I₄ := λ (T : ℝ), ∫ (y : ℝ) in 0..c, cexp (-b * (T + y * I) ^ 2),
-  let I₅ := λ (T : ℝ), ∫ (y : ℝ) in 0..c, cexp (-b * (-T + y * I) ^ 2),
+  set I₁ := (λ T, ∫_{-T}^{T} x, cexp (-b * (x + c * I) ^ 2)) with HI₁,
+  let I₂ := λ (T : ℝ), ∫_{-T}^{T} x, cexp (-b * x ^ 2),
+  let I₄ := λ (T : ℝ), ∫_{0}^{c} y, cexp (-b * (T + y * I) ^ 2),
+  let I₅ := λ (T : ℝ), ∫_{0}^{c} y, cexp (-b * (-T + y * I) ^ 2),
   have C : ∀ (T : ℝ), I₂ T - I₁ T + I * I₄ T - I * I₅ T = 0,
   { assume T,
     have := integral_boundary_rect_eq_zero_of_differentiable_on

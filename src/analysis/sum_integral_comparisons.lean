@@ -47,7 +47,7 @@ open_locale big_operators
 variables {x₀ : ℝ} {a b : ℕ} {f : ℝ → ℝ}
 
 lemma antitone_on.integral_le_sum (hf : antitone_on f (Icc x₀ (x₀ + a))) :
-  ∫ x in x₀..(x₀ + a), f x ≤ ∑ i in finset.range a, f (x₀ + i) :=
+  ∫_{x₀}^{(x₀ + a)} x, f x ≤ ∑ i in finset.range a, f (x₀ + i) :=
 begin
   have hint : ∀ (k : ℕ), k < a → interval_integrable f volume (x₀+k) (x₀ + (k + 1 : ℕ)),
   { assume k hk,
@@ -58,12 +58,12 @@ begin
       { simp only [add_le_add_iff_left, nat.cast_le, nat.succ_le_of_lt hk] } },
     { simp only [add_le_add_iff_left, nat.cast_le, nat.le_succ] } },
   calc
-  ∫ x in x₀..(x₀ + a), f x = ∑ i in finset.range a, ∫ x in (x₀+i)..(x₀+(i+1 : ℕ)), f x :
+  ∫_{x₀}^{(x₀ + a)} x, f x = ∑ i in finset.range a, ∫_{(x₀+i)}^{(x₀+(i+1 : ℕ))} x, f x :
     begin
       convert (interval_integral.sum_integral_adjacent_intervals hint).symm,
       simp only [nat.cast_zero, add_zero],
     end
-  ... ≤ ∑ i in finset.range a, ∫ x in (x₀+i)..(x₀+(i+1 : ℕ)), f (x₀ + i) :
+  ... ≤ ∑ i in finset.range a, ∫_{(x₀+i)}^{(x₀+(i+1 : ℕ))} x, f (x₀ + i) :
     begin
       apply finset.sum_le_sum (λ i hi, _),
       have ia : i < a := finset.mem_range.1 hi,
@@ -78,7 +78,7 @@ begin
 end
 
 lemma antitone_on.integral_le_sum_Ico (hab : a ≤ b) (hf : antitone_on f (set.Icc a b)) :
-  ∫ x in a..b, f x ≤ ∑ x in finset.Ico a b, f x :=
+  ∫_{a}^{b} x, f x ≤ ∑ x in finset.Ico a b, f x :=
 begin
   rw [(nat.sub_add_cancel hab).symm, nat.cast_add],
   conv { congr, congr, skip, skip, rw add_comm, skip, skip, congr, congr, rw ←zero_add a, },
@@ -89,7 +89,7 @@ begin
 end
 
 lemma antitone_on.sum_le_integral (hf : antitone_on f (Icc x₀ (x₀ + a))) :
-  ∑ i in finset.range a, f (x₀ + (i + 1 : ℕ)) ≤ ∫ x in x₀..(x₀ + a), f x :=
+  ∑ i in finset.range a, f (x₀ + (i + 1 : ℕ)) ≤ ∫_{x₀}^{(x₀ + a)} x, f x :=
 begin
   have hint : ∀ (k : ℕ), k < a → interval_integrable f volume (x₀+k) (x₀ + (k + 1 : ℕ)),
   { assume k hk,
@@ -100,8 +100,8 @@ begin
       { simp only [add_le_add_iff_left, nat.cast_le, nat.succ_le_of_lt hk] } },
     { simp only [add_le_add_iff_left, nat.cast_le, nat.le_succ] } },
   calc ∑ i in finset.range a, f (x₀ + (i + 1 : ℕ))
-      = ∑ i in finset.range a, ∫ x in (x₀+i)..(x₀+(i+1:ℕ)), f (x₀ + (i + 1 : ℕ)) : by simp
-  ... ≤ ∑ i in finset.range a, ∫ x in (x₀+i)..(x₀+(i+1:ℕ)), f x :
+      = ∑ i in finset.range a, ∫_{(x₀+i)}^{(x₀+(i+1:ℕ))} x, f (x₀ + (i + 1 : ℕ)) : by simp
+  ... ≤ ∑ i in finset.range a, ∫_{(x₀+i)}^{(x₀+(i+1:ℕ))} x, f x :
     begin
       apply finset.sum_le_sum (λ i hi, _),
       have ia : i + 1 ≤ a := finset.mem_range.1 hi,
@@ -113,7 +113,7 @@ begin
       { refine mem_Icc.2 ⟨(le_add_iff_nonneg_right _).2 (nat.cast_nonneg _), _⟩,
         simp only [add_le_add_iff_left, nat.cast_le, ia] },
     end
-  ... = ∫ x in x₀..(x₀ + a), f x :
+  ... = ∫_{x₀}^{(x₀ + a)} x, f x :
     begin
       convert interval_integral.sum_integral_adjacent_intervals hint,
       simp only [nat.cast_zero, add_zero],
@@ -121,7 +121,7 @@ begin
 end
 
 lemma antitone_on.sum_le_integral_Ico (hab : a ≤ b) (hf : antitone_on f (set.Icc a b)) :
-  ∑ i in finset.Ico a b, f (i + 1 : ℕ) ≤ ∫ x in a..b, f x :=
+  ∑ i in finset.Ico a b, f (i + 1 : ℕ) ≤ ∫_{a}^{b} x, f x :=
 begin
   rw [(nat.sub_add_cancel hab).symm, nat.cast_add],
   conv { congr, congr, congr, rw ← zero_add a, skip, skip, skip, rw add_comm, },
@@ -132,28 +132,28 @@ begin
 end
 
 lemma monotone_on.sum_le_integral (hf : monotone_on f (Icc x₀ (x₀ + a))) :
-  ∑ i in finset.range a, f (x₀ + i) ≤ ∫ x in x₀..(x₀ + a), f x :=
+  ∑ i in finset.range a, f (x₀ + i) ≤ ∫_{x₀}^{(x₀ + a)} x, f x :=
 begin
   rw [← neg_le_neg_iff, ← finset.sum_neg_distrib, ← interval_integral.integral_neg],
   exact hf.neg.integral_le_sum,
 end
 
 lemma monotone_on.sum_le_integral_Ico (hab : a ≤ b) (hf : monotone_on f (set.Icc a b)) :
-  ∑ x in finset.Ico a b, f x ≤ ∫ x in a..b, f x :=
+  ∑ x in finset.Ico a b, f x ≤ ∫_{a}^{b} x, f x :=
 begin
   rw [← neg_le_neg_iff, ← finset.sum_neg_distrib, ← interval_integral.integral_neg],
   exact hf.neg.integral_le_sum_Ico hab,
 end
 
 lemma monotone_on.integral_le_sum (hf : monotone_on f (Icc x₀ (x₀ + a))) :
-  ∫ x in x₀..(x₀ + a), f x ≤ ∑ i in finset.range a, f (x₀ + (i + 1 : ℕ)) :=
+  ∫_{x₀}^{(x₀ + a)} x, f x ≤ ∑ i in finset.range a, f (x₀ + (i + 1 : ℕ)) :=
 begin
   rw [← neg_le_neg_iff, ← finset.sum_neg_distrib, ← interval_integral.integral_neg],
   exact hf.neg.sum_le_integral,
 end
 
 lemma monotone_on.integral_le_sum_Ico (hab : a ≤ b) (hf : monotone_on f (set.Icc a b)) :
-  ∫ x in a..b, f x ≤ ∑ i in finset.Ico a b, f (i + 1 : ℕ) :=
+  ∫_{a}^{b} x, f x ≤ ∑ i in finset.Ico a b, f (i + 1 : ℕ) :=
 begin
   rw [← neg_le_neg_iff, ← finset.sum_neg_distrib, ← interval_integral.integral_neg],
   exact hf.neg.sum_le_integral_Ico hab,

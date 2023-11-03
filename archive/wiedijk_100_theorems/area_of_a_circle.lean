@@ -28,7 +28,7 @@ calculating is indeed measurable and our result is therefore meaningful.
 
 In the main proof, `area_disc`, we use `volume_region_between_eq_integral` followed by
 `interval_integral.integral_of_le` to reduce our goal to a single `interval_integral`:
-  `∫ (x : ℝ) in -r..r, 2 * sqrt (r ^ 2 - x ^ 2) = π * r ^ 2`.
+  `∫_{-r}^{r} x, 2 * sqrt (r ^ 2 - x ^ 2) = π * r ^ 2`.
 After disposing of the trivial case `r = 0`, we show that `λ x, 2 * sqrt (r ^ 2 - x ^ 2)` is equal
 to the derivative of `λ x, r ^ 2 * arcsin (x / r) + x * sqrt (r ^ 2 - x ^ 2)` everywhere on
 `Ioo (-r) r` and that those two functions are continuous, then apply the second fundamental theorem
@@ -84,7 +84,7 @@ begin
   let f := λ x, sqrt (r ^ 2 - x ^ 2),
   let F := λ x, (r:ℝ) ^ 2 * arcsin (r⁻¹ * x) + x * sqrt (r ^ 2 - x ^ 2),
   have hf : continuous f := by continuity,
-  suffices : ∫ x in -r..r, 2 * f x = nnreal.pi * r ^ 2,
+  suffices : ∫_{-r}^{r} x, 2 * f x = nnreal.pi * r ^ 2,
   { have h : integrable_on f (Ioc (-r) r) :=
       hf.integrable_on_Icc.mono_set Ioc_subset_Icc_self,
     calc  volume (disc r)
@@ -92,7 +92,7 @@ begin
     ... = ennreal.of_real (∫ x in Ioc (-r:ℝ) r, (f - has_neg.neg ∘ f) x) :
           volume_region_between_eq_integral
             h.neg h measurable_set_Ioc (λ x hx, neg_le_self (sqrt_nonneg _))
-    ... = ennreal.of_real (∫ x in (-r:ℝ)..r, 2 * f x) : by simp [two_mul, integral_of_le]
+    ... = ennreal.of_real (∫_{-r}^{r} x, 2 * f x) : by simp [two_mul, integral_of_le]
     ... = nnreal.pi * r ^ 2 : by rw_mod_cast [this, ← ennreal.coe_nnreal_eq], },
   obtain ⟨hle, (heq | hlt)⟩ := ⟨nnreal.coe_nonneg r, hle.eq_or_lt⟩, { simp [← heq] },
   have hderiv : ∀ x ∈ Ioo (-r:ℝ) r, has_deriv_at F (2 * f x) x,
@@ -115,7 +115,7 @@ begin
                    ... = 1 : inv_mul_cancel hlt.ne' },
     { nlinarith } },
   have hcont := (by continuity : continuous F).continuous_on,
-  calc  ∫ x in -r..r, 2 * f x
+  calc  ∫_{-r}^{r} x, 2 * f x
       = F r - F (-r) : integral_eq_sub_of_has_deriv_at_of_le (neg_le_self r.2)
                          hcont hderiv (continuous_const.mul hf).continuous_on.interval_integrable
   ... = nnreal.pi * r ^ 2 : by norm_num [F, inv_mul_cancel hlt.ne', ← mul_div_assoc, mul_comm π],

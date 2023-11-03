@@ -311,7 +311,7 @@ def fourier_coeff (f : add_circle T → E) (n : ℤ) : E :=
 /-- The Fourier coefficients of a function on `add_circle T` can be computed as an integral
 over `[a, a + T]`, for any real `a`. -/
 lemma fourier_coeff_eq_interval_integral (f : add_circle T → E) (n : ℤ) (a : ℝ) :
-  fourier_coeff f n = (1 / T) • ∫ x in a .. a + T, @fourier T (-n) x • f x :=
+  fourier_coeff f n = (1 / T) • ∫_{a}^{a + T} x, @fourier T (-n) x • f x :=
 begin
   have : ∀ (x : ℝ), @fourier T (-n) x • f x = (λ (z : add_circle T), @fourier T (-n) z • f z) x,
   { intro x, refl, },
@@ -342,7 +342,7 @@ end
 
 lemma fourier_coeff_on_eq_integral {a b : ℝ} (f : ℝ → E) (n : ℤ) (hab : a < b) :
   fourier_coeff_on hab f n =
-  (1 / (b - a)) • ∫ x in a ..b, fourier (-n) (x : add_circle (b - a)) • f x :=
+  (1 / (b - a)) • ∫_{a}^{b} x, fourier (-n) (x : add_circle (b - a)) • f x :=
 begin
   rw [fourier_coeff_on, fourier_coeff_eq_interval_integral _ _ a],
   congr' 1,

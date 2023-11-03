@@ -140,7 +140,7 @@ by { rw ← mem_ℒp_one_iff_integrable, exact hf.mem_ℒp_truncation }
 
 lemma moment_truncation_eq_interval_integral (hf : ae_strongly_measurable f μ) {A : ℝ}
   (hA : 0 ≤ A) {n : ℕ} (hn : n ≠ 0) :
-  ∫ x, (truncation f A x) ^ n ∂μ = ∫ y in (-A)..A, y ^ n ∂(measure.map f μ) :=
+  ∫ x, (truncation f A x) ^ n ∂μ = ∫_{(-A)}^{A} y, y ^ n ∂(measure.map f μ) :=
 begin
   have M : measurable_set (set.Ioc (-A) A) := measurable_set_Ioc,
   change ∫ x, (λ z, (indicator (set.Ioc (-A) A) id z) ^ n) (f x) ∂μ = _,
@@ -152,7 +152,7 @@ end
 
 lemma moment_truncation_eq_interval_integral_of_nonneg (hf : ae_strongly_measurable f μ) {A : ℝ}
   {n : ℕ} (hn : n ≠ 0) (h'f : 0 ≤ f) :
-  ∫ x, (truncation f A x) ^ n ∂μ = ∫ y in 0..A, y ^ n ∂(measure.map f μ) :=
+  ∫ x, (truncation f A x) ^ n ∂μ = ∫_{0}^{A} y, y ^ n ∂(measure.map f μ) :=
 begin
   have M : measurable_set (set.Ioc 0 A) := measurable_set_Ioc,
   have M' : measurable_set (set.Ioc A 0) := measurable_set_Ioc,
@@ -180,12 +180,12 @@ end
 
 lemma integral_truncation_eq_interval_integral (hf : ae_strongly_measurable f μ) {A : ℝ}
   (hA : 0 ≤ A) :
-  ∫ x, truncation f A x ∂μ = ∫ y in (-A)..A, y ∂(measure.map f μ) :=
+  ∫ x, truncation f A x ∂μ = ∫_{(-A)}^{A} y, y ∂(measure.map f μ) :=
 by simpa using moment_truncation_eq_interval_integral hf hA one_ne_zero
 
 lemma integral_truncation_eq_interval_integral_of_nonneg (hf : ae_strongly_measurable f μ) {A : ℝ}
   (h'f : 0 ≤ f) :
-  ∫ x, truncation f A x ∂μ = ∫ y in 0..A, y ∂(measure.map f μ) :=
+  ∫ x, truncation f A x ∂μ = ∫_{0}^{A} y, y ∂(measure.map f μ) :=
 by simpa using moment_truncation_eq_interval_integral_of_nonneg hf one_ne_zero h'f
 
 lemma integral_truncation_le_integral_of_nonneg
@@ -236,16 +236,16 @@ lemma sum_prob_mem_Ioc_le
 begin
   let ρ : measure ℝ := measure.map X ℙ,
   haveI : is_probability_measure ρ := is_probability_measure_map hint.ae_measurable,
-  have A : ∑ j in range K, ∫ x in j..N, (1 : ℝ) ∂ρ ≤ 𝔼[X] + 1, from calc
-  ∑ j in range K, ∫ x in j..N, (1 : ℝ) ∂ρ
-      = ∑ j in range K, ∑ i in Ico j N, ∫ x in i..(i+1 : ℕ), (1 : ℝ) ∂ρ :
+  have A : ∑ j in range K, ∫_{j}^{N} x, (1 : ℝ) ∂ρ ≤ 𝔼[X] + 1, from calc
+  ∑ j in range K, ∫_{j}^{N} x, (1 : ℝ) ∂ρ
+      = ∑ j in range K, ∑ i in Ico j N, ∫_{i}^{(i+1 : ℕ)} x, (1 : ℝ) ∂ρ :
     begin
       apply sum_congr rfl (λ j hj, _),
       rw interval_integral.sum_integral_adjacent_intervals_Ico ((mem_range.1 hj).le.trans hKN),
       assume k hk,
       exact continuous_const.interval_integrable _ _,
     end
-  ... = ∑ i in range N, ∑ j in range (min (i+1) K), ∫ x in i..(i+1 : ℕ), (1 : ℝ) ∂ρ :
+  ... = ∑ i in range N, ∑ j in range (min (i+1) K), ∫_{i}^{(i+1 : ℕ)} x, (1 : ℝ) ∂ρ :
     begin
       simp_rw [sum_sigma'],
       refine sum_bij' (λ (p : (Σ (i : ℕ), ℕ)) hp, (⟨p.2, p.1⟩ : (Σ (i : ℕ), ℕ))) _ (λ a ha, rfl)
@@ -259,7 +259,7 @@ begin
       { rintros ⟨i, j⟩ hij, refl },
       { rintros ⟨i, j⟩ hij, refl },
     end
-  ... ≤ ∑ i in range N, (i + 1) * ∫ x in i..(i+1 : ℕ), (1 : ℝ) ∂ρ :
+  ... ≤ ∑ i in range N, (i + 1) * ∫_{i}^{(i+1 : ℕ)} x, (1 : ℝ) ∂ρ :
     begin
       apply sum_le_sum (λ i hi, _),
       simp only [nat.cast_add, nat.cast_one, sum_const, card_range, nsmul_eq_mul, nat.cast_min],
@@ -268,7 +268,7 @@ begin
       { simp only [le_add_iff_nonneg_right, zero_le_one] },
       { simp only [zero_le_one, implies_true_iff], }
     end
-  ... ≤ ∑ i in range N, ∫ x in i..(i+1 : ℕ), (x + 1) ∂ρ :
+  ... ≤ ∑ i in range N, ∫_{i}^{(i+1 : ℕ)} x, (x + 1) ∂ρ :
     begin
       apply sum_le_sum (λ i hi, _),
       have I : (i : ℝ) ≤ (i + 1 : ℕ),
@@ -282,21 +282,21 @@ begin
         simp only [nat.cast_add, nat.cast_one, set.mem_Ioc] at hx,
         simp [hx.1.le] }
     end
-  ... = ∫ x in 0..N, x + 1 ∂ρ :
+  ... = ∫_{0}^{N} x, x + 1 ∂ρ :
     begin
       rw interval_integral.sum_integral_adjacent_intervals (λ k hk, _),
       { norm_cast },
       { exact (continuous_id.add continuous_const).interval_integrable _ _ }
     end
-  ... = ∫ x in 0..N, x ∂ρ + ∫ x in 0..N, 1 ∂ρ :
+  ... = ∫_{0}^{N} x, x ∂ρ + ∫_{0}^{N} x, 1 ∂ρ :
     begin
       rw interval_integral.integral_add,
       { exact continuous_id.interval_integrable _ _ },
       { exact continuous_const.interval_integrable _ _ },
     end
-  ... = 𝔼[truncation X N] + ∫ x in 0..N, 1 ∂ρ :
+  ... = 𝔼[truncation X N] + ∫_{0}^{N} x, 1 ∂ρ :
     by rw integral_truncation_eq_interval_integral_of_nonneg hint.1 hnonneg
-  ... ≤ 𝔼[X] + ∫ x in 0..N, 1 ∂ρ :
+  ... ≤ 𝔼[X] + ∫_{0}^{N} x, 1 ∂ρ :
     add_le_add_right (integral_truncation_le_integral_of_nonneg hint hnonneg) _
   ... ≤ 𝔼[X] + 1 :
     begin
@@ -321,7 +321,7 @@ begin
       simp only [integral_const, algebra.id.smul_eq_mul, mul_one, ennreal.to_real_nonneg,
         implies_true_iff],
     end
-  ... = ennreal.of_real (∑ j in range K, ∫ x in (j : ℝ)..N, (1 : ℝ) ∂ρ) :
+  ... = ennreal.of_real (∑ j in range K, ∫_{j}^{N} x, (1 : ℝ) ∂ρ) :
     begin
       congr' 1,
       refine sum_congr rfl (λ j hj, _),
@@ -363,14 +363,14 @@ lemma sum_variance_truncation_le
 begin
   set Y := λ (n : ℕ), truncation X n,
   let ρ : measure ℝ := measure.map X ℙ,
-  have Y2 : ∀ n, 𝔼[Y n ^ 2] = ∫ x in 0..n, x ^ 2 ∂ρ,
+  have Y2 : ∀ n, 𝔼[Y n ^ 2] = ∫_{0}^{n} x, x ^ 2 ∂ρ,
   { assume n,
     change 𝔼[λ x, (Y n x)^2] = _,
     rw [moment_truncation_eq_interval_integral_of_nonneg hint.1 two_ne_zero hnonneg] },
   calc ∑ j in range K, ((j : ℝ) ^ 2) ⁻¹ * 𝔼[Y j ^ 2]
-      = ∑ j in range K, ((j : ℝ) ^ 2) ⁻¹ * ∫ x in 0..j, x ^ 2 ∂ρ :
+      = ∑ j in range K, ((j : ℝ) ^ 2) ⁻¹ * ∫_{0}^{j} x, x ^ 2 ∂ρ :
     by simp_rw [Y2]
-  ... = ∑ j in range K, ((j : ℝ) ^ 2) ⁻¹ * ∑ k in range j, ∫ x in k..(k+1 : ℕ), x ^ 2 ∂ρ :
+  ... = ∑ j in range K, ((j : ℝ) ^ 2) ⁻¹ * ∑ k in range j, ∫_{k}^{(k+1 : ℕ)} x, x ^ 2 ∂ρ :
     begin
       congr' 1 with j,
       congr' 1,
@@ -379,7 +379,7 @@ begin
       assume k hk,
       exact (continuous_id.pow _).interval_integrable _ _,
     end
-  ... = ∑ k in range K, (∑ j in Ioo k K, ((j : ℝ) ^ 2) ⁻¹) * ∫ x in k..(k+1 : ℕ), x ^ 2 ∂ρ :
+  ... = ∑ k in range K, (∑ j in Ioo k K, ((j : ℝ) ^ 2) ⁻¹) * ∫_{k}^{(k+1 : ℕ)} x, x ^ 2 ∂ρ :
     begin
       simp_rw [mul_sum, sum_mul, sum_sigma'],
       refine sum_bij' (λ (p : (Σ (i : ℕ), ℕ)) hp, (⟨p.2, p.1⟩ : (Σ (i : ℕ), ℕ))) _ (λ a ha, rfl)
@@ -393,14 +393,14 @@ begin
       { rintros ⟨i, j⟩ hij, refl },
       { rintros ⟨i, j⟩ hij, refl },
     end
-  ... ≤ ∑ k in range K, (2/ (k+1)) * ∫ x in k..(k+1 : ℕ), x ^ 2 ∂ρ :
+  ... ≤ ∑ k in range K, (2/ (k+1)) * ∫_{k}^{(k+1 : ℕ)} x, x ^ 2 ∂ρ :
     begin
       apply sum_le_sum (λ k hk, _),
       refine mul_le_mul_of_nonneg_right (sum_Ioo_inv_sq_le _ _) _,
       refine interval_integral.integral_nonneg_of_forall _ (λ u, sq_nonneg _),
       simp only [nat.cast_add, nat.cast_one, le_add_iff_nonneg_right, zero_le_one],
     end
-  ... ≤ ∑ k in range K, ∫ x in k..(k+1 : ℕ), 2 * x ∂ρ :
+  ... ≤ ∑ k in range K, ∫_{k}^{(k+1 : ℕ)} x, 2 * x ∂ρ :
     begin
       apply sum_le_sum (λ k hk, _),
       have Ik : (k : ℝ) ≤ (k + 1 : ℕ), by simp,
@@ -420,7 +420,7 @@ begin
           end (mul_nonneg zero_le_two ((nat.cast_nonneg k).trans hx.1.le))
         ... = 2 * x : by rw one_mul }
     end
-  ... = 2 * ∫ x in (0 : ℝ)..K, x ∂ρ :
+  ... = 2 * ∫_{0}^{K} x, x ∂ρ :
     begin
       rw interval_integral.sum_integral_adjacent_intervals (λ k hk, _),
       swap, { exact (continuous_const.mul continuous_id').interval_integrable _ _ },

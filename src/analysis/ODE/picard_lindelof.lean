@@ -229,7 +229,7 @@ that the fixed point of this map is the solution of the corresponding ODE.
 
 More precisely, some iteration of this map is a contracting map. -/
 def next (f : fun_space v) : fun_space v :=
-{ to_fun := λ t, v.x₀ + ∫ τ : ℝ in v.t₀..t, f.v_comp τ,
+{ to_fun := λ t, v.x₀ + ∫_{v.t₀}^{t} τ, f.v_comp τ,
   map_t₀' := by rw [integral_same, add_zero],
   lipschitz' := lipschitz_with.of_dist_le_mul $ λ t₁ t₂,
     begin
@@ -239,7 +239,7 @@ def next (f : fun_space v) : fun_space v :=
       exact norm_integral_le_of_norm_le_const (λ t ht, f.norm_v_comp_le _),
     end }
 
-lemma next_apply (t : Icc v.t_min v.t_max) : f.next t = v.x₀ + ∫ τ : ℝ in v.t₀..t, f.v_comp τ := rfl
+lemma next_apply (t : Icc v.t_min v.t_max) : f.next t = v.x₀ + ∫_{v.t₀}^{t} τ, f.v_comp τ := rfl
 
 lemma has_deriv_within_at_next (t : Icc v.t_min v.t_max) :
   has_deriv_within_at (f.next ∘ v.proj) (v t (f t)) (Icc v.t_min v.t_max) t :=
@@ -247,7 +247,7 @@ begin
   haveI : fact ((t : ℝ) ∈ Icc v.t_min v.t_max) := ⟨t.2⟩,
   simp only [(∘), next_apply],
   refine has_deriv_within_at.const_add _ _,
-  have : has_deriv_within_at (λ t : ℝ, ∫ τ in v.t₀..t, f.v_comp τ) (f.v_comp t)
+  have : has_deriv_within_at (λ t : ℝ, ∫_{v.t₀}^{t} τ, f.v_comp τ) (f.v_comp t)
     (Icc v.t_min v.t_max) t,
     from integral_has_deriv_within_at_right (f.interval_integrable_v_comp _ _)
       (f.continuous_v_comp.strongly_measurable_at_filter _ _)

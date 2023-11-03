@@ -366,13 +366,13 @@ theorem integral_eq_of_has_deriv_within_at_off_countable_of_le (f f' : ℝ → E
   {a b : ℝ} (hle : a ≤ b) {s : set ℝ} (hs : s.countable)
   (Hc : continuous_on f (Icc a b)) (Hd : ∀ x ∈ Ioo a b \ s, has_deriv_at f (f' x) x)
   (Hi : interval_integrable f' volume a b) :
-  ∫ x in a..b, f' x = f b - f a :=
+  ∫_{a}^{b} x, f' x = f b - f a :=
 begin
   set e : ℝ ≃L[ℝ] ℝ¹ := (continuous_linear_equiv.fun_unique (fin 1) ℝ ℝ).symm,
   have e_symm : ∀ x, e.symm x = x 0 := λ x, rfl,
   set F' : ℝ → ℝ →L[ℝ] E := λ x, smul_right (1 : ℝ →L[ℝ] ℝ) (f' x),
   have hF' : ∀ x y, F' x y = y • f' x := λ x y, rfl,
-  calc ∫ x in a..b, f' x = ∫ x in Icc a b, f' x :
+  calc ∫_{a}^{b} x, f' x = ∫ x in Icc a b, f' x :
     by simp only [interval_integral.integral_of_le hle, set_integral_congr_set_ae Ioc_ae_eq_Icc]
   ... = ∑ i : fin 1, ((∫ x in Icc (e a ∘ i.succ_above) (e b ∘ i.succ_above),
         f (e.symm $ i.insert_nth (e b i) x)) -
@@ -406,7 +406,7 @@ theorem integral_eq_of_has_deriv_within_at_off_countable (f f' : ℝ → E) {a b
   (hs : s.countable) (Hc : continuous_on f [a, b])
   (Hd : ∀ x ∈ Ioo (min a b) (max a b) \ s, has_deriv_at f (f' x) x)
   (Hi : interval_integrable f' volume a b) :
-  ∫ x in a..b, f' x = f b - f a :=
+  ∫_{a}^{b} x, f' x = f b - f a :=
 begin
   cases le_total a b with hab hab,
   { simp only [uIcc_of_le hab, min_eq_left hab, max_eq_right hab] at *,
@@ -433,8 +433,8 @@ lemma integral_divergence_prod_Icc_of_has_fderiv_within_at_off_countable_of_le (
   (Hdg : ∀ x ∈ Ioo a.1 b.1 ×ˢ Ioo a.2 b.2 \ s, has_fderiv_at g (g' x) x)
   (Hi : integrable_on (λ x, f' x (1, 0) + g' x (0, 1)) (Icc a b)) :
   ∫ x in Icc a b, f' x (1, 0) + g' x (0, 1) =
-    (∫ x in a.1..b.1, g (x, b.2)) - (∫ x in a.1..b.1, g (x, a.2)) +
-      (∫ y in a.2..b.2, f (b.1, y)) - ∫ y in a.2..b.2, f (a.1, y) :=
+    (∫_{a.1}^{b.1} x, g (x, b.2)) - (∫_{a.1}^{b.1} x, g (x, a.2)) +
+      (∫_{a.2}^{b.2} y, f (b.1, y)) - ∫_{a.2}^{b.2} y, f (a.1, y) :=
 let e : (ℝ × ℝ) ≃L[ℝ] ℝ² := (continuous_linear_equiv.fin_two_arrow ℝ ℝ).symm in
 calc ∫ x in Icc a b, f' x (1, 0) + g' x (0, 1)
     = ∑ i : fin 2, ((∫ x in Icc (e a ∘ i.succ_above) (e b ∘ i.succ_above),
@@ -462,8 +462,8 @@ calc ∫ x in Icc a b, f' x (1, 0) + g' x (0, 1)
     simp only [fin.sum_univ_two, this],
     refl
   end
-... = (∫ x in a.1..b.1, g (x, b.2)) - (∫ x in a.1..b.1, g (x, a.2)) +
-        (∫ y in a.2..b.2, f (b.1, y)) - ∫ y in a.2..b.2, f (a.1, y) :
+... = (∫_{a.1}^{b.1} x, g (x, b.2)) - (∫_{a.1}^{b.1} x, g (x, a.2)) +
+        (∫_{a.2}^{b.2} y, f (b.1, y)) - ∫_{a.2}^{b.2} y, f (a.1, y) :
   begin
     simp only [interval_integral.integral_of_le hle.1, interval_integral.integral_of_le hle.2,
       set_integral_congr_set_ae Ioc_ae_eq_Icc],
@@ -471,7 +471,7 @@ calc ∫ x in Icc a b, f' x (1, 0) + g' x (0, 1)
   end
 
 /-- **Divergence theorem** for functions on the plane. It is formulated in terms of two functions
-`f g : ℝ × ℝ → E` and iterated integral `∫ x in a₁..b₁, ∫ y in a₂..b₂, _`, where
+`f g : ℝ × ℝ → E` and iterated integral `∫_{a₁}^{b₁} x, ∫_{a₂}^{b₂} y, _`, where
 `a₁ a₂ b₁ b₂ : ℝ`. When thinking of `f` and `g` as the two coordinates of a single function
 `F : ℝ × ℝ → E × E` and when `E = ℝ`, this is the usual statement that the integral of the
 divergence of `F` inside the rectangle with vertices `(aᵢ, bⱼ)`, `i, j =1,2`, equals the integral of
@@ -487,9 +487,9 @@ lemma integral2_divergence_prod_of_has_fderiv_within_at_off_countable (f g : ℝ
   (Hdg : ∀ x ∈ Ioo (min a₁ b₁) (max a₁ b₁) ×ˢ Ioo (min a₂ b₂) (max a₂ b₂) \ s,
     has_fderiv_at g (g' x) x)
   (Hi : integrable_on (λ x, f' x (1, 0) + g' x (0, 1)) ([a₁, b₁] ×ˢ [a₂, b₂])) :
-  ∫ x in a₁..b₁, ∫ y in a₂..b₂, f' (x, y) (1, 0) + g' (x, y) (0, 1) =
-    (∫ x in a₁..b₁, g (x, b₂)) - (∫ x in a₁..b₁, g (x, a₂)) +
-      (∫ y in a₂..b₂, f (b₁, y)) - ∫ y in a₂..b₂, f (a₁, y) :=
+  ∫_{a₁}^{b₁} x, ∫_{a₂}^{b₂} y, f' (x, y) (1, 0) + g' (x, y) (0, 1) =
+    (∫_{a₁}^{b₁} x, g (x, b₂)) - (∫_{a₁}^{b₁} x, g (x, a₂)) +
+      (∫_{a₂}^{b₂} y, f (b₁, y)) - ∫_{a₂}^{b₂} y, f (a₁, y) :=
 begin
   wlog h₁ : a₁ ≤ b₁ generalizing a₁ b₁,
   { specialize this b₁ a₁,
@@ -503,14 +503,14 @@ begin
     refine (congr_arg has_neg.neg (this Hcf Hcg Hdf Hdg Hi (le_of_not_le h₂))).trans _, abel },
   simp only [uIcc_of_le h₁, uIcc_of_le h₂, min_eq_left, max_eq_right, h₁, h₂]
     at Hcf Hcg Hdf Hdg Hi,
-  calc ∫ x in a₁..b₁, ∫ y in a₂..b₂, f' (x, y) (1, 0) + g' (x, y) (0, 1)
+  calc ∫_{a₁}^{b₁} x, ∫_{a₂}^{b₂} y, f' (x, y) (1, 0) + g' (x, y) (0, 1)
       = ∫ x in Icc a₁ b₁, ∫ y in Icc a₂ b₂, f' (x, y) (1, 0) + g' (x, y) (0, 1) :
     by simp only [interval_integral.integral_of_le, h₁, h₂,
       set_integral_congr_set_ae Ioc_ae_eq_Icc]
   ... = ∫ x in Icc a₁ b₁ ×ˢ Icc a₂ b₂, f' x (1, 0) + g' x (0, 1) :
     (set_integral_prod _ Hi).symm
-  ... = (∫ x in a₁..b₁, g (x, b₂)) - (∫ x in a₁..b₁, g (x, a₂)) +
-          (∫ y in a₂..b₂, f (b₁, y)) - ∫ y in a₂..b₂, f (a₁, y) :
+  ... = (∫_{a₁}^{b₁} x, g (x, b₂)) - (∫_{a₁}^{b₁} x, g (x, a₂)) +
+          (∫_{a₂}^{b₂} y, f (b₁, y)) - ∫_{a₂}^{b₂} y, f (a₁, y) :
     begin
       rw Icc_prod_Icc at *,
       apply integral_divergence_prod_Icc_of_has_fderiv_within_at_off_countable_of_le f g f' g'

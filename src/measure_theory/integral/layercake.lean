@@ -77,7 +77,7 @@ lemma lintegral_comp_eq_lintegral_meas_le_mul_of_measurable (μ : measure α) [s
   (f_nn : 0 ≤ f) (f_mble : measurable f)
   (g_intble : ∀ t > 0, interval_integrable g volume 0 t)
   (g_mble : measurable g) (g_nn : ∀ t > 0, 0 ≤ g t) :
-  ∫⁻ ω, ennreal.of_real (∫ t in 0 .. (f ω), g t) ∂μ
+  ∫⁻ ω, ennreal.of_real (∫_{0}^{(f ω)} t, g t) ∂μ
     = ∫⁻ t in Ioi 0, (μ {a : α | t ≤ f a}) * ennreal.of_real (g t) :=
 begin
   have g_intble' : ∀ (t : ℝ), 0 ≤ t → interval_integrable g volume 0 t,
@@ -85,7 +85,7 @@ begin
     cases eq_or_lt_of_le ht,
     { simp [← h], },
     { exact g_intble t h, }, },
-  have integrand_eq : ∀ ω, ennreal.of_real (∫ t in 0 .. (f ω), g t)
+  have integrand_eq : ∀ ω, ennreal.of_real (∫_{0}^{(f ω)} t, g t)
                            = ∫⁻ t in Ioc 0 (f ω), ennreal.of_real (g t),
   { intro ω,
     have g_ae_nn : 0 ≤ᵐ[volume.restrict (Ioc 0 (f ω))] g,
@@ -163,7 +163,7 @@ theorem lintegral_comp_eq_lintegral_meas_le_mul (μ : measure α) [sigma_finite 
   (f_nn : 0 ≤ f) (f_mble : measurable f)
   (g_intble : ∀ t > 0, interval_integrable g volume 0 t)
   (g_nn : ∀ᵐ t ∂(volume.restrict (Ioi 0)), 0 ≤ g t) :
-  ∫⁻ ω, ennreal.of_real (∫ t in 0 .. f ω, g t) ∂μ
+  ∫⁻ ω, ennreal.of_real (∫_{0}^{f ω} t, g t) ∂μ
     = ∫⁻ t in Ioi 0, μ {a : α | t ≤ f a} * ennreal.of_real (g t) :=
 begin
   have ex_G : ∃ (G : ℝ → ℝ), measurable G ∧ 0 ≤ G ∧ g =ᵐ[volume.restrict (Ioi 0)] G,
@@ -181,7 +181,7 @@ begin
   { apply lintegral_congr_ae,
     filter_upwards [g_eq_G] with a ha,
     rw [ha], },
-  have eq₂ : ∀ ω, ∫ t in 0..f ω, g t = ∫ t in 0..f ω, G t,
+  have eq₂ : ∀ ω, ∫_{0}^{f ω} t, g t = ∫_{0}^{f ω} t, G t,
   { refine λ ω, interval_integral.integral_congr_ae _,
     have fω_nn : 0 ≤ f ω := f_nn ω,
     rw [uIoc_of_le fω_nn,
@@ -227,7 +227,7 @@ theorem lintegral_rpow_eq_lintegral_meas_le_mul (μ : measure α) [sigma_finite 
     = (ennreal.of_real p) * ∫⁻ t in Ioi 0, (μ {a : α | t ≤ f a}) * ennreal.of_real (t^(p-1)) :=
 begin
   have one_lt_p : -1 < p - 1 := by linarith,
-  have obs : ∀ (x : ℝ), (∫ (t : ℝ) in 0..x, t^(p-1)) = x^p / p,
+  have obs : ∀ (x : ℝ), (∫_{0}^{x} t, t^(p-1)) = x^p / p,
   { intros x,
     rw integral_rpow (or.inl one_lt_p),
     simp [real.zero_rpow p_pos.ne.symm], },
@@ -315,7 +315,7 @@ theorem lintegral_comp_eq_lintegral_meas_lt_mul (μ : measure α) [sigma_finite 
   (f_nn : 0 ≤ f) (f_mble : measurable f)
   (g_intble : ∀ t > 0, interval_integrable g volume 0 t)
   (g_nn : ∀ᵐ t ∂(volume.restrict (Ioi 0)), 0 ≤ g t) :
-  ∫⁻ ω, ennreal.of_real (∫ t in 0 .. f ω, g t) ∂μ
+  ∫⁻ ω, ennreal.of_real (∫_{0}^{f ω} t, g t) ∂μ
     = ∫⁻ t in Ioi 0, μ {a : α | t < f a} * ennreal.of_real (g t) :=
 begin
   rw lintegral_comp_eq_lintegral_meas_le_mul μ f_nn f_mble g_intble g_nn,

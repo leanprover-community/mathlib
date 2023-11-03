@@ -17,7 +17,7 @@ $$ \sin \pi z = \pi z \prod_{n = 1}^\infty \left(1 - \frac{z ^ 2}{n ^ 2}\right) 
 
 for any real or complex `z`. Our proof closely follows the article
 [Salwinski, *Euler's Sine Product Formula: An Elementary Proof*][salwinski2018]: the basic strategy
-is to prove a recurrence relation for the integrals `∫ x in 0..π/2, cos 2 z x * cos x ^ (2 * n)`,
+is to prove a recurrence relation for the integrals `∫_{0}^{π/2} x, cos 2 z x * cos x ^ (2 * n)`,
 generalising the arguments used to prove Wallis' limit formula for `π`.
 -/
 
@@ -58,8 +58,8 @@ begin
 end
 
 lemma integral_cos_mul_cos_pow_aux (hn : 2 ≤ n) (hz : z ≠ 0):
-  (∫ x:ℝ in 0..π/2, complex.cos (2 * z * x) * cos x ^ n) =
-  n / (2 * z) * ∫ x:ℝ in 0..π/2, complex.sin (2 * z * x) * sin x * cos x ^ (n - 1) :=
+  (∫_{0}^{π/2} x:ℝ, complex.cos (2 * z * x) * cos x ^ n) =
+  n / (2 * z) * ∫_{0}^{π/2} x:ℝ, complex.sin (2 * z * x) * sin x * cos x ^ (n - 1) :=
 begin
   have der1 : ∀ (x : ℝ), (x ∈ uIcc 0 (π/2)) → has_deriv_at (λ y, (↑(cos y)) ^ n : ℝ → ℂ)
     (-n * sin x * cos x ^ (n - 1)) x,
@@ -83,9 +83,9 @@ begin
 end
 
 lemma integral_sin_mul_sin_mul_cos_pow_eq (hn : 2 ≤ n) (hz : z ≠ 0) :
-  ∫ x:ℝ in 0..π/2, complex.sin (2 * z * x) * sin x * cos x ^ (n - 1) =
-  n / (2 * z) * (∫ x:ℝ in 0..π/2, complex.cos (2 * z * x) * cos x ^ n) -
-  (n - 1) / (2 * z) * (∫ x:ℝ in 0..π/2, complex.cos (2 * z * x) * cos x ^ (n - 2)) :=
+  ∫_{0}^{π/2} x:ℝ, complex.sin (2 * z * x) * sin x * cos x ^ (n - 1) =
+  n / (2 * z) * (∫_{0}^{π/2} x:ℝ, complex.cos (2 * z * x) * cos x ^ n) -
+  (n - 1) / (2 * z) * (∫_{0}^{π/2} x:ℝ, complex.cos (2 * z * x) * cos x ^ (n - 2)) :=
 begin
   have der1 : ∀ (x : ℝ), (x ∈ uIcc 0 (π/2)) →
     has_deriv_at (λ y, (sin y) * (cos y) ^ (n - 1) : ℝ → ℂ)
@@ -141,8 +141,8 @@ end
 
 /-- Note this also holds for `z = 0`, but we do not need this case for `sin_pi_mul_eq`.  -/
 lemma integral_cos_mul_cos_pow (hn : 2 ≤ n) (hz : z ≠ 0) :
-  (1 - 4 * z ^ 2 / n ^ 2) * (∫ x:ℝ in 0..π/2, complex.cos (2 * z * x) * cos x ^ n) =
-  (n - 1 : ℂ) / n * ∫ x:ℝ in 0..π/2, complex.cos (2 * z * x) * cos x ^ (n - 2) :=
+  (1 - 4 * z ^ 2 / n ^ 2) * (∫_{0}^{π/2} x:ℝ, complex.cos (2 * z * x) * cos x ^ n) =
+  (n - 1 : ℂ) / n * ∫_{0}^{π/2} x:ℝ, complex.cos (2 * z * x) * cos x ^ (n - 2) :=
 begin
   have nne : (n : ℂ) ≠ 0,
   { contrapose! hn, rw nat.cast_eq_zero at hn, rw hn, exact zero_lt_two },
@@ -155,8 +155,8 @@ end
 
 /-- Note this also holds for `z = 0`, but we do not need this case for `sin_pi_mul_eq`. -/
 lemma integral_cos_mul_cos_pow_even (n : ℕ) (hz : z ≠ 0) :
-  (1 - z ^ 2 / (n + 1) ^ 2) * (∫ x:ℝ in 0..π/2, complex.cos (2 * z * x) * cos x ^ (2 * n + 2)) =
-  (2 * n + 1 : ℂ) / (2 * n + 2) * ∫ x:ℝ in 0..π/2, complex.cos (2 * z * x) * cos x ^ (2 * n) :=
+  (1 - z ^ 2 / (n + 1) ^ 2) * (∫_{0}^{π/2} x:ℝ, complex.cos (2 * z * x) * cos x ^ (2 * n + 2)) =
+  (2 * n + 1 : ℂ) / (2 * n + 2) * ∫_{0}^{π/2} x:ℝ, complex.cos (2 * z * x) * cos x ^ (2 * n) :=
 begin
   convert integral_cos_mul_cos_pow (by linarith : 2 ≤ 2 * n + 2) hz using 3,
   { simp only [nat.cast_add, nat.cast_mul, nat.cast_two],
@@ -170,7 +170,7 @@ end
 /-- Relate the integral `cos x ^ n` over `[0, π/2]` to the integral of `sin x ^ n` over `[0, π]`,
 which is studied in `data.real.pi.wallis` and other places. -/
 lemma integral_cos_pow_eq (n : ℕ) :
-  (∫ (x:ℝ) in 0..π/2, cos x ^ n) = 1 / 2 * (∫ (x:ℝ) in 0..π, (sin x) ^ n) :=
+  (∫_{0}^{π/2} x, cos x ^ n) = 1 / 2 * (∫_{0}^{π} x, (sin x) ^ n) :=
 begin
   rw [mul_comm (1/2 : ℝ), ←div_eq_iff (one_div_ne_zero (two_ne_zero' ℝ)), ←div_mul, div_one,
     mul_two],
@@ -192,14 +192,14 @@ begin
     rw sin_add_pi_div_two },
 end
 
-lemma integral_cos_pow_pos (n : ℕ) : 0 < (∫ (x:ℝ) in 0..π/2, cos x ^ n) :=
+lemma integral_cos_pow_pos (n : ℕ) : 0 < (∫_{0}^{π/2} x, cos x ^ n) :=
 (integral_cos_pow_eq n).symm ▸ (mul_pos one_half_pos (integral_sin_pow_pos _))
 
 /-- Finite form of Euler's sine product, with remainder term expressed as a ratio of cosine
 integrals. -/
 lemma sin_pi_mul_eq (z : ℂ) (n : ℕ) :
   complex.sin (π * z) = π * z * (∏ j in finset.range n, (1 - z ^ 2 / (j + 1) ^ 2)) *
-  (∫ x in 0..π/2, complex.cos (2 * z * x) * cos x ^ (2 * n)) / ↑∫ x in 0..π/2, cos x ^ (2 * n) :=
+  (∫_{0}^{π/2} x, complex.cos (2 * z * x) * cos x ^ (2 * n)) / ↑∫_{0}^{π/2} x, cos x ^ (2 * n) :=
 begin
   rcases eq_or_ne z 0 with rfl | hz,
   { simp },
@@ -212,11 +212,11 @@ begin
     ring },
   { rw [hn, finset.prod_range_succ],
     set A := ∏ j in finset.range n, (1 - z ^ 2 / (j + 1) ^ 2),
-    set B := ∫ x:ℝ in 0..π/2, complex.cos (2 * z * x) * cos x ^ (2 * n),
-    set C := ∫ x:ℝ in 0..π/2, cos x ^ (2 * n),
+    set B := ∫_{0}^{π/2} x:ℝ, complex.cos (2 * z * x) * cos x ^ (2 * n),
+    set C := ∫_{0}^{π/2} x:ℝ, cos x ^ (2 * n),
     have aux' : 2 * n.succ = 2 * n + 2,
     { rw [nat.succ_eq_add_one, mul_add, mul_one], },
-    have : ∫ x:ℝ in 0..π/2, cos x ^ (2 * n.succ) = (2 * (n:ℝ) + 1) / (2 * n + 2) * C,
+    have : ∫_{0}^{π/2} x:ℝ, cos x ^ (2 * n.succ) = (2 * (n:ℝ) + 1) / (2 * n + 2) * C,
     { rw integral_cos_pow_eq,
       dsimp only [C],
       rw [integral_cos_pow_eq, aux', integral_sin_pow, sin_zero, sin_pi, pow_succ, zero_mul,
@@ -225,18 +225,18 @@ begin
     rw this,
     change ↑π * z * A * B / ↑C =
       (↑π * z * (A * (1 - z ^ 2 / (↑n + 1) ^ 2)) *
-       ∫ (x : ℝ) in 0..π / 2, complex.cos (2 * z * ↑x) * ↑(cos x) ^ (2 * n.succ)) /
+       ∫_{0}^{π / 2} x, complex.cos (2 * z * ↑x) * ↑(cos x) ^ (2 * n.succ)) /
     ↑((2 * ↑n + 1) / (2 * ↑n + 2) * C),
     have : ↑π * z * (A * (1 - z ^ 2 / (↑n + 1) ^ 2)) *
-      ∫ (x : ℝ) in 0..π / 2, complex.cos (2 * z * ↑x) * ↑(cos x) ^ (2 * n.succ)
+      ∫_{0}^{π / 2} x, complex.cos (2 * z * ↑x) * ↑(cos x) ^ (2 * n.succ)
     = ↑π * z * A * ((1 - z ^ 2 / (↑n.succ) ^ 2) *
-      ∫ (x : ℝ) in 0..π / 2, complex.cos (2 * z * ↑x) * ↑(cos x) ^ (2 * n.succ)),
+      ∫_{0}^{π / 2} x, complex.cos (2 * z * ↑x) * ↑(cos x) ^ (2 * n.succ)),
     { nth_rewrite_rhs 0 nat.succ_eq_add_one,
       rw nat.cast_add_one,
       ring },
     rw this,
     suffices : (1 - z ^ 2 / ↑(n.succ) ^ 2) *
-      ∫ (x : ℝ) in 0..π / 2, complex.cos (2 * z * ↑x) * ↑(cos x) ^ (2 * n.succ) =
+      ∫_{0}^{π / 2} x, complex.cos (2 * z * ↑x) * ↑(cos x) ^ (2 * n.succ) =
       (2 * n + 1) / (2 * n + 2) * B,
     { rw [this, complex.of_real_mul, complex.of_real_div],
       have : (C:ℂ) ≠ 0 := complex.of_real_ne_zero.mpr (integral_cos_pow_pos _).ne',
@@ -263,7 +263,7 @@ stating that the sequence of measures on `[0, π/2]` given by integration agains
 `tendsto_set_integral_pow_smul_of_unique_maximum_of_is_compact_of_continuous_on`. -/
 
 lemma tendsto_integral_cos_pow_mul_div {f : ℝ → ℂ} (hf : continuous_on f (Icc 0 (π/2))) :
-  tendsto (λ (n : ℕ), (∫ x:ℝ in 0..π/2, ↑(cos x) ^ n * f x) / ↑(∫ x:ℝ in 0..π/2, (cos x) ^ n))
+  tendsto (λ (n : ℕ), (∫_{0}^{π/2} x:ℝ, ↑(cos x) ^ n * f x) / ↑(∫_{0}^{π/2} x:ℝ, (cos x) ^ n))
   at_top (𝓝 $ f 0) :=
 begin
   simp_rw [div_eq_inv_mul _ (coe _), ←complex.of_real_inv, integral_of_le (pi_div_two_pos.le),
@@ -286,14 +286,14 @@ lemma _root_.complex.tendsto_euler_sin_prod (z : ℂ) :
   at_top (𝓝 $ complex.sin (π * z)) :=
 begin
   have A : tendsto (λ n:ℕ, ↑π * z * (∏ j in finset.range n, (1 - z ^ 2 / (j + 1) ^ 2)) *
-    (∫ x in 0..π / 2, complex.cos (2 * z * x) * cos x ^ (2 * n)) /
-    ↑∫ x in 0..π / 2, cos x ^ (2 * n))
+    (∫_{0}^{π / 2} x, complex.cos (2 * z * x) * cos x ^ (2 * n)) /
+    ↑∫_{0}^{π / 2} x, cos x ^ (2 * n))
     at_top (𝓝 $ _) := tendsto.congr (λ n, (sin_pi_mul_eq z n)) tendsto_const_nhds,
   have : 𝓝 (complex.sin (π * z)) = 𝓝 (complex.sin (π * z) * 1) := by rw mul_one,
   simp_rw [this, mul_div_assoc] at A,
   convert (tendsto_mul_iff_of_ne_zero _ one_ne_zero).mp A,
-  suffices : tendsto (λ n:ℕ, (∫ x:ℝ in 0..π/2, complex.cos (2 * z * x) * cos x ^ n)
-    / ↑(∫ x:ℝ in 0..π/2, cos x ^ n)) at_top (𝓝 1),
+  suffices : tendsto (λ n:ℕ, (∫_{0}^{π/2} x:ℝ, complex.cos (2 * z * x) * cos x ^ n)
+    / ↑(∫_{0}^{π/2} x:ℝ, cos x ^ n)) at_top (𝓝 1),
   from this.comp (tendsto_id.const_mul_at_top' zero_lt_two),
   have : continuous_on (λ x:ℝ, complex.cos (2 * z * x)) (Icc 0 (π/2)), from
     (complex.continuous_cos.comp (continuous_const.mul complex.continuous_of_real)).continuous_on,

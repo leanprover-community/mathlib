@@ -27,7 +27,7 @@ variables {𝕜 : Type*} [is_R_or_C 𝕜] {μ : measure ℝ}
 
 namespace interval_integral
 
-/-- Differentiation under integral of `x ↦ ∫ t in a..b, F x t` at a given point `x₀`, assuming
+/-- Differentiation under integral of `x ↦ ∫_{a}^{b} t, F x t` at a given point `x₀`, assuming
 `F x₀` is integrable, `x ↦ F x a` is locally Lipschitz on a ball around `x₀` for ae `a`
 (with a ball radius independent of `a`) with integrable Lipschitz bound, and `F x` is ae-measurable
 for `x` in a possibly smaller neighborhood of `x₀`. -/
@@ -40,7 +40,7 @@ lemma has_fderiv_at_integral_of_dominated_loc_of_lip {F : H → ℝ → E} {F' :
   (bound_integrable : interval_integrable bound μ a b)
   (h_diff : ∀ᵐ t ∂μ, t ∈ Ι a b → has_fderiv_at (λ x, F x t) (F' t) x₀) :
   interval_integrable F' μ a b ∧
-    has_fderiv_at (λ x, ∫ t in a..b, F x t ∂μ) (∫ t in a..b, F' t ∂μ) x₀ :=
+    has_fderiv_at (λ x, ∫_{a}^{b} t, F x t ∂μ) (∫_{a}^{b} t, F' t ∂μ) x₀ :=
 begin
   simp only [interval_integrable_iff, interval_integral_eq_integral_uIoc,
     ← ae_restrict_iff' measurable_set_uIoc] at *,
@@ -61,7 +61,7 @@ lemma has_fderiv_at_integral_of_dominated_of_fderiv_le {F : H → ℝ → E} {F'
   (h_bound : ∀ᵐ t ∂μ, t ∈ Ι a b → ∀ x ∈ ball x₀ ε, ‖F' x t‖ ≤ bound t)
   (bound_integrable : interval_integrable bound μ a b)
   (h_diff : ∀ᵐ t ∂μ, t ∈ Ι a b → ∀ x ∈ ball x₀ ε, has_fderiv_at (λ x, F x t) (F' x t) x) :
-  has_fderiv_at (λ x, ∫ t in a..b, F x t ∂μ) (∫ t in a..b, F' x₀ t ∂μ) x₀ :=
+  has_fderiv_at (λ x, ∫_{a}^{b} t, F x t ∂μ) (∫_{a}^{b} t, F' x₀ t ∂μ) x₀ :=
 begin
   simp only [interval_integrable_iff, interval_integral_eq_integral_uIoc,
     ← ae_restrict_iff' measurable_set_uIoc] at *,
@@ -83,7 +83,7 @@ lemma has_deriv_at_integral_of_dominated_loc_of_lip {F : 𝕜 → ℝ → E} {F'
   (bound_integrable : interval_integrable (bound : ℝ → ℝ) μ a b)
   (h_diff : ∀ᵐ t ∂μ, t ∈ Ι a b → has_deriv_at (λ x, F x t) (F' t) x₀) :
   (interval_integrable F' μ a b) ∧
-    has_deriv_at (λ x, ∫ t in a..b, F x t ∂μ) (∫ t in a..b, F' t ∂μ) x₀ :=
+    has_deriv_at (λ x, ∫_{a}^{b} t, F x t ∂μ) (∫_{a}^{b} t, F' t ∂μ) x₀ :=
 begin
   simp only [interval_integrable_iff, interval_integral_eq_integral_uIoc,
     ← ae_restrict_iff' measurable_set_uIoc] at *,
@@ -105,7 +105,7 @@ lemma has_deriv_at_integral_of_dominated_loc_of_deriv_le {F : 𝕜 → ℝ → E
   (bound_integrable : interval_integrable bound μ a b)
   (h_diff : ∀ᵐ t ∂μ, t ∈ Ι a b → ∀ x ∈ ball x₀ ε, has_deriv_at (λ x, F x t) (F' x t) x) :
   (interval_integrable (F' x₀) μ a b) ∧
-    has_deriv_at (λ x, ∫ t in a..b, F x t ∂μ) (∫ t in a..b, F' x₀ t ∂μ) x₀ :=
+    has_deriv_at (λ x, ∫_{a}^{b} t, F x t ∂μ) (∫_{a}^{b} t, F' x₀ t ∂μ) x₀ :=
 begin
   simp only [interval_integrable_iff, interval_integral_eq_integral_uIoc,
     ← ae_restrict_iff' measurable_set_uIoc] at *,

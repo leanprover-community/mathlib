@@ -66,21 +66,21 @@ begin
     simpa only [mul_one] using this.int_mul n x },
   -- Now the main argument. First unwind some definitions.
   calc fourier_coeff (periodic.lift $ f.periodic_tsum_comp_add_zsmul 1) m
-  = ∫ x in 0..1, e x * (∑' n : ℤ, f.comp (continuous_map.add_right n)) x :
+  = ∫_{0}^{1} x, e x * (∑' n : ℤ, f.comp (continuous_map.add_right n)) x :
     by simp_rw [fourier_coeff_eq_interval_integral _ m 0, div_one, one_smul, zero_add, comp_apply,
       coe_mk, periodic.lift_coe, zsmul_one, smul_eq_mul]
   -- Transform sum in C(ℝ, ℂ) evaluated at x into pointwise sum of values.
-  ... = ∫ x in 0..1, (∑' n : ℤ, (e * f.comp (continuous_map.add_right n)) x) :
+  ... = ∫_{0}^{1} x, (∑' n : ℤ, (e * f.comp (continuous_map.add_right n)) x) :
     by simp_rw [coe_mul, pi.mul_apply, ←tsum_apply (summable_of_locally_summable_norm hf),
       tsum_mul_left]
   -- Swap sum and integral.
-  ... = ∑' n : ℤ, ∫ x in 0..1, (e * f.comp (continuous_map.add_right n)) x :
+  ... = ∑' n : ℤ, ∫_{0}^{1} x, (e * f.comp (continuous_map.add_right n)) x :
     begin
       refine (interval_integral.tsum_interval_integral_eq_of_summable_norm _).symm,
       convert hf ⟨uIcc 0 1, is_compact_uIcc⟩,
       exact funext (λ n, neK _ _)
     end
-  ... = ∑' n : ℤ, ∫ x in 0..1, (e * f).comp (continuous_map.add_right n) x :
+  ... = ∑' n : ℤ, ∫_{0}^{1} x, (e * f).comp (continuous_map.add_right n) x :
     begin
       simp only [continuous_map.comp_apply, mul_comp] at eadd ⊢,
       simp_rw eadd,

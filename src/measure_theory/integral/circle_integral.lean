@@ -300,7 +300,7 @@ variables [normed_space ℂ E] [complete_space E]
 
 /-- Definition for $\oint_{|z-c|=R} f(z)\,dz$. -/
 def circle_integral (f : ℂ → E) (c : ℂ) (R : ℝ) : E :=
-∫ (θ : ℝ) in 0..2 * π, deriv (circle_map c R) θ • f (circle_map c R θ)
+∫_{0}^{2 * π} θ, deriv (circle_map c R) θ • f (circle_map c R θ)
 
 notation `∮` binders ` in ` `C(` c `, ` R `)` `, ` r:(scoped:60 f, circle_integral f c R) := r
 
@@ -376,9 +376,9 @@ lemma norm_integral_lt_of_norm_le_const_of_lt {f : ℂ → E} {c : ℂ} {R C : �
 begin
   rw [← _root_.abs_of_pos hR, ← image_circle_map_Ioc] at hlt,
   rcases hlt with ⟨_, ⟨θ₀, hmem, rfl⟩, hlt⟩,
-  calc ‖∮ z in C(c, R), f z‖ ≤ ∫ θ in 0..2 * π, ‖deriv (circle_map c R) θ • f (circle_map c R θ)‖ :
+  calc ‖∮ z in C(c, R), f z‖ ≤ ∫_{0}^{2 * π} θ, ‖deriv (circle_map c R) θ • f (circle_map c R θ)‖ :
     interval_integral.norm_integral_le_integral_norm real.two_pi_pos.le
-  ... < ∫ θ in 0..2 * π, R * C :
+  ... < ∫_{0}^{2 * π} θ, R * C :
     begin
       simp only [norm_smul, deriv_circle_map, norm_eq_abs, map_mul, abs_I, mul_one,
         abs_circle_map_zero, abs_of_pos hR],
@@ -481,17 +481,17 @@ by simp only [cauchy_power_series, continuous_multilinear_map.mk_pi_field_apply,
 
 lemma norm_cauchy_power_series_le (f : ℂ → E) (c : ℂ) (R : ℝ) (n : ℕ) :
   ‖cauchy_power_series f c R n‖ ≤
-    (2 * π)⁻¹ * (∫ θ : ℝ in 0..2*π, ‖f (circle_map c R θ)‖) * (|R|⁻¹) ^ n :=
+    (2 * π)⁻¹ * (∫_{0}^{2*π} θ, ‖f (circle_map c R θ)‖) * (|R|⁻¹) ^ n :=
 calc ‖cauchy_power_series f c R n‖
     = (2 * π)⁻¹ * ‖∮ z in C(c, R), (z - c)⁻¹ ^ n • (z - c)⁻¹ • f z‖ :
   by simp [cauchy_power_series, norm_smul, real.pi_pos.le]
-... ≤ (2 * π)⁻¹ * ∫ θ in 0..2*π, ‖deriv (circle_map c R) θ • (circle_map c R θ - c)⁻¹ ^ n •
+... ≤ (2 * π)⁻¹ * ∫_{0}^{2*π} θ, ‖deriv (circle_map c R) θ • (circle_map c R θ - c)⁻¹ ^ n •
   (circle_map c R θ - c)⁻¹ • f (circle_map c R θ)‖ :
   mul_le_mul_of_nonneg_left (interval_integral.norm_integral_le_integral_norm real.two_pi_pos.le)
     (by simp [real.pi_pos.le])
-... = (2 * π)⁻¹ * (|R|⁻¹ ^ n * (|R| * (|R|⁻¹ * ∫ (x : ℝ) in 0..2 * π, ‖f (circle_map c R x)‖))) :
+... = (2 * π)⁻¹ * (|R|⁻¹ ^ n * (|R| * (|R|⁻¹ * ∫_{0}^{2 * π} x, ‖f (circle_map c R x)‖))) :
   by simp [norm_smul, mul_left_comm (|R|)]
-... ≤ (2 * π)⁻¹ * (∫ θ : ℝ in 0..2*π, ‖f (circle_map c R θ)‖) * |R|⁻¹ ^ n :
+... ≤ (2 * π)⁻¹ * (∫_{0}^{2*π} θ, ‖f (circle_map c R θ)‖) * |R|⁻¹ ^ n :
   begin
     rcases eq_or_ne R 0 with rfl|hR,
     { cases n; simp [-mul_inv_rev, real.two_pi_pos] },
@@ -503,7 +503,7 @@ lemma le_radius_cauchy_power_series (f : ℂ → E) (c : ℂ) (R : ℝ≥0) :
   ↑R ≤ (cauchy_power_series f c R).radius :=
 begin
   refine (cauchy_power_series f c R).le_radius_of_bound
-    ((2 * π)⁻¹ * (∫ θ : ℝ in 0..2*π, ‖f (circle_map c R θ)‖)) (λ n, _),
+    ((2 * π)⁻¹ * (∫_{0}^{2*π} θ, ‖f (circle_map c R θ)‖)) (λ n, _),
   refine (mul_le_mul_of_nonneg_right (norm_cauchy_power_series_le _ _ _ _)
     (pow_nonneg R.coe_nonneg _)).trans _,
   rw [_root_.abs_of_nonneg R.coe_nonneg],

@@ -50,9 +50,9 @@ namespace complex
 
 notation `cexp` := complex.exp
 
-/-- The Beta function `Β (u, v)`, defined as `∫ x:ℝ in 0..1, x ^ (u - 1) * (1 - x) ^ (v - 1)`. -/
+/-- The Beta function `Β (u, v)`, defined as `∫_{0}^{1} x:ℝ, x ^ (u - 1) * (1 - x) ^ (v - 1)`. -/
 noncomputable def beta_integral (u v : ℂ) : ℂ :=
-∫ (x:ℝ) in 0..1, x ^ (u - 1) * (1 - x) ^ (v - 1)
+∫_{0}^{1} x, x ^ (u - 1) * (1 - x) ^ (v - 1)
 
 /-- Auxiliary lemma for `beta_integral_convergent`, showing convergence at the left endpoint. -/
 lemma beta_integral_convergent_left {u : ℂ} (hu : 0 < re u) (v : ℂ) :
@@ -112,7 +112,7 @@ begin
 end
 
 lemma beta_integral_scaled (s t : ℂ) {a : ℝ} (ha : 0 < a) :
-  ∫ x in 0..a, (x:ℂ) ^ (s - 1) * (a - x) ^ (t - 1) = a ^ (s + t - 1) * beta_integral s t :=
+  ∫_{0}^{a} x, (x:ℂ) ^ (s - 1) * (a - x) ^ (t - 1) = a ^ (s + t - 1) * beta_integral s t :=
 begin
   have ha' : (a:ℂ) ≠ 0, from of_real_ne_zero.mpr ha.ne',
   rw beta_integral,
@@ -272,7 +272,7 @@ begin
 end
 
 lemma Gamma_seq_eq_approx_Gamma_integral {s : ℂ} (hs : 0 < re s) {n : ℕ} (hn : n ≠ 0) :
-  Gamma_seq s n = ∫ x:ℝ in 0..n, ↑((1 - x / n) ^ n) * (x:ℂ) ^ (s - 1) :=
+  Gamma_seq s n = ∫_{0}^{n} x:ℝ, ↑((1 - x / n) ^ n) * (x:ℂ) ^ (s - 1) :=
 begin
   have : ∀ (x : ℝ), x = x / n * n, by { intro x, rw div_mul_cancel, exact nat.cast_ne_zero.mpr hn },
   conv in (↑_ ^ _) { congr, rw this x },
@@ -298,7 +298,7 @@ end
 /-- The main techical lemma for `Gamma_seq_tendsto_Gamma`, expressing the integral defining the
 Gamma function for `0 < re s` as the limit of a sequence of integrals over finite intervals. -/
 lemma approx_Gamma_integral_tendsto_Gamma_integral {s : ℂ} (hs : 0 < re s) :
-  tendsto (λ n:ℕ, ∫ x:ℝ in 0..n, ↑((1 - x / n) ^ n) * (x:ℂ) ^ (s - 1)) at_top (𝓝 $ Gamma s) :=
+  tendsto (λ n:ℕ, ∫_{0}^{n} x:ℝ, ↑((1 - x / n) ^ n) * (x:ℂ) ^ (s - 1)) at_top (𝓝 $ Gamma s) :=
 begin
   rw [Gamma_eq_integral hs],
   -- We apply dominated convergence to the following function, which we will show is uniformly

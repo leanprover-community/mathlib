@@ -84,7 +84,7 @@ begin
     from (hgi.mono_set hsub).mono_fun' (ae_strongly_measurable_deriv _ _) hg_ae,
   refine hlt.not_le (sub_le_iff_le_add'.1 _),
   calc ‖f d‖ - ‖f c‖ ≤ ‖f d - f c‖ : norm_sub_norm_le _ _
-  ... = ‖∫ x in c..d, deriv f x‖ : congr_arg _ (integral_deriv_eq_sub hfd hfi).symm
+  ... = ‖∫_{c}^{d} x, deriv f x‖ : congr_arg _ (integral_deriv_eq_sub hfd hfi).symm
   ... = ‖∫ x in Ι c d, deriv f x‖ : norm_integral_eq_norm_integral_Ioc _
   ... ≤ ∫ x in Ι c d, ‖deriv f x‖ : norm_integral_le_integral_norm _
   ... ≤ ∫ x in Ι c d, C * ‖g x‖ :
