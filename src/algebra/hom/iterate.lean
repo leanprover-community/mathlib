@@ -21,6 +21,10 @@ So, we restate standard `*_hom.map_*` lemmas under names `*_hom.iterate_map_*`.
 
 We also prove formulas for iterates of add/mul left/right.
 
+## TODO
+
+Redefine `npow` in `monoid_hom.End`, `module.End`, etc using `nat.iterate`.
+
 ## Tags
 
 homomorphism, iterate

@@ -86,8 +86,7 @@ h.to_left_inverse e.left_inverse_symm
 
 protected lemma perm_inv (h : is_fixed_pt e x) : is_fixed_pt ⇑(e⁻¹) x := h.equiv_symm
 
-protected lemma perm_pow (h : is_fixed_pt e x) (n : ℕ) : is_fixed_pt ⇑(e ^ n) x :=
-by { rw equiv.perm.coe_pow, exact h.iterate _ }
+protected lemma perm_pow (h : is_fixed_pt e x) (n : ℕ) : is_fixed_pt ⇑(e ^ n) x := h.iterate _
 
 protected lemma perm_zpow (h : is_fixed_pt e x) : ∀ n : ℤ, is_fixed_pt ⇑(e ^ n) x
 | (int.of_nat n) := h.perm_pow _

@@ -1525,6 +1525,7 @@ begin
   obtain ⟨n, rfl⟩ := hσ.exists_pow_eq (classical.some_spec hσ).1 (mem_support.1 hx),
   apply eq.trans _ (congr rfl (congr rfl (congr rfl
     (congr rfl (hσ.zpowers_equiv_support_symm_apply n).symm)))),
+  simp_rw [←mul_apply, ←pow_succ],
   apply (congr rfl (congr rfl (congr rfl (hσ.zpowers_equiv_support_symm_apply (n + 1))))).trans _,
   simp only [ne.def, is_cycle.zpowers_equiv_support_apply,
     subtype.coe_mk, zpowers_equiv_zpowers_apply],

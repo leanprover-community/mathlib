@@ -8,6 +8,7 @@ import algebra.group.commute
 import algebra.hom.group
 import algebra.opposites
 import logic.embedding.basic
+import logic.function.iterate
 
 /-!
 # Definitions of group actions
@@ -844,7 +845,9 @@ instance : monoid (function.End α) :=
   mul := (∘),
   mul_assoc := λ f g h, rfl,
   mul_one := λ f, rfl,
-  one_mul := λ f, rfl, }
+  one_mul := λ f, rfl,
+  npow := λ n f, f^[n],
+  npow_succ' := λ n f, function.iterate_succ' _ _ }
 
 instance : inhabited (function.End α) := ⟨1⟩
 
